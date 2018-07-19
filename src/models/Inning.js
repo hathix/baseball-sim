@@ -4,6 +4,8 @@ export default class Inning {
   constructor() {
     this.outs = 0;
     this.runs = 0;
+    this.hits = 0;
+    this.errors = 0;
     this.bases = [ // who's on?
       false, // first
       false, // second
@@ -126,6 +128,30 @@ export default class Inning {
     else {
       // get on base
       this.bases[numBases - 1] = true;
+    }
+
+    // add to base hit count
+    this.hits++;
+  }
+
+  error() {
+    // it's effectively the same as a single but doesn't count as a hit
+    this.advanceRunner(2, 1);
+    this.advanceRunner(1, 1);
+    this.advanceRunner(0, 1);
+    this.bases[0] = true;
+
+    this.errors++;
+  }
+
+  sacFly() {
+    // only possible if man on 2nd
+    if (this.bases[2]) {
+      // suppose this is successful
+      // TODO; have some condition on it succeeding
+      // TODO; also advance man on 2nd sometimes
+      // advance man on 3rd base (2) by 1 base (1)
+      this.advanceRunner(2, 1);
     }
   }
 }

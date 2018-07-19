@@ -108,8 +108,20 @@ export default {
           }
           break;
         case "groundout": // TODO handle GIDP and man on 3rd/2nd advancing on GO
+          this.inning.out();
+          // new batter
+          // TODO abstract out
+          this.balls = 0;
+          this.strikes = 0;
+          break;
         case "flyout": // TODO handle sac fly
           this.inning.out();
+
+          if (this.inning.bases[2]) {
+            // man on 3rd. can score on sac fly
+            this.inning.sacFly();
+          }
+
           // new batter
           // TODO abstract out
           this.balls = 0;
