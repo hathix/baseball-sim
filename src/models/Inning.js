@@ -44,6 +44,18 @@ export default class Inning {
     }
   }
 
+  doublePlay() {
+    // first check conditions. for simplicity, assume only GIDP with the
+    // man on 1st getting forced out.
+    // this INCLUDES the out for the batter!
+    if (this.outs < 2 && this.bases[0]) {
+      // assume nobody advances
+      this.outs += 2;
+      // man on 1st is out!
+      Vue.set(this.bases, 0, false);
+    }
+  }
+
   out() {
     this.outs++;
   }
@@ -117,6 +129,9 @@ export default class Inning {
   }
 
   baseHit(numBases) {
+    // let's keep track of # runs scored on this hit, for user's knowledge
+    let runsBefore = this.runs;
+
     // advance all runners
     // advanceRunner() will check if there's anybody on a given base
     // so it's ok if we tell a non-existent runner to move
@@ -131,11 +146,16 @@ export default class Inning {
     }
     else {
       // get on base
-      this.bases[numBases - 1] = true;
+      Vue.set(this.bases, numBases - 1, true);
     }
 
     // add to base hit count
     this.hits++;
+
+    // count runs after to find difference
+    let runsAfter = this.runs;
+    let runsScored = runsAfter - runsBefore;
+    return runsScored;
   }
 
   error() {

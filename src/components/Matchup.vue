@@ -126,13 +126,21 @@ export default {
           }
           break;
         case "groundout": // TODO handle GIDP and man on 3rd/2nd advancing on GO
-          this.inning.out();
+          if (this.inning.outs < 2 && this.inning.bases[0]) {
+            // TODO make this happen only a percentage of the time 
+            this.inning.doublePlay();
+            verbose = `${this.batter.name} grounds into a double play. ${this.inning.outs} out.`;
+          }
+          else {
+            this.inning.out();
+            verbose = `${this.batter.name} grounds out. ${this.inning.outs} out.`;
+          }
           // new batter
           // TODO abstract out
           this.balls = 0;
           this.strikes = 0;
 
-          verbose = `${this.batter.name} grounds out. ${this.inning.outs} out.`;
+
           break;
         case "flyout": // TODO handle sac fly
           this.inning.out();
