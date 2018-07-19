@@ -6,13 +6,8 @@
     <p>Now Pitching: {{ pitcher.title }}</p>
     <p>Now Batting: {{ batter.title }}</p>
 
-    <p>Count: {{ balls }}-{{ strikes}}</p>
 
-    <p>Runs: {{ inning.runs }}</p>
-
-    <p>Outs: {{ inning.outs }}</p>
-
-    <p>Bases: {{ inning.bases }}</p>
+    <Scoreboard :inning="inning" :balls="balls" :strikes="strikes" />
 
     <button @click="nextPitch()">PITCH!</button>
 
@@ -29,6 +24,7 @@ import Player from "@/models/Player";
 import calculations from "@/models/Calculations";
 import utils from "@/lib/utils";
 import Inning from "@/models/Inning";
+import Scoreboard from "@/components/Scoreboard";
 
 // // load data
 // import rawPlayers from "@/data/players.json";
@@ -156,7 +152,7 @@ export default {
 
       return result;
     }
-  }
+  },
 
   // data: function(){
   //   return {
@@ -178,8 +174,8 @@ export default {
   //   }
   // },
   //
-  // components: {
-  //   // HelloWorld
-  // }
+  components: {
+    Scoreboard
+  }
 };
 </script>

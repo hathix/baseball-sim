@@ -8,9 +8,9 @@ export default {
 
     return {
       // not in play. 75%
-      ball: 0.35,
-      strike: 0.2,
-      foul: 0.2,
+      ball: 0.38,
+      strike: 0.18,
+      foul: 0.19,
 
       // in play. 25%
       // out. 17%
