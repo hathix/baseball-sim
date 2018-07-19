@@ -2,7 +2,7 @@ import _ from "lodash";
 
 export default class Player {
   constructor(rawData) {
-    console.log("CONSTRUCTING");
+    // console.log("CONSTRUCTING");
     // merge data in
     _.merge(this, rawData);
   }
