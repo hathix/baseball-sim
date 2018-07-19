@@ -1,8 +1,13 @@
 import _ from "lodash";
 
-export class Player {
-  constructor({ name, stats }) {
-    this.name = name;
-    this.stats = stats;
+export default class Player {
+  constructor(rawData) {
+    console.log("CONSTRUCTING");
+    // merge data in
+    _.merge(this, rawData);
+  }
+
+  get title() {
+    return this.name + " #" + this.number;
   }
 }
