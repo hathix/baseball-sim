@@ -30,17 +30,17 @@ let players = rawPlayers.map(raw => new Player(raw));
 export default {
   name: "home",
 
-  data: function(){
+  data: function() {
     return {
       players: players,
 
       pitcher: null,
       batter: null
-    }
+    };
   },
 
   methods: {
-    setPitcher(player){
+    setPitcher(player) {
       console.log("SET PITCHER");
       this.pitcher = player;
     },
