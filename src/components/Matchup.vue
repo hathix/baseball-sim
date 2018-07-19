@@ -8,6 +8,8 @@
 
     <p>Count: {{ balls }}-{{ strikes}}</p>
 
+    <p>Runs: {{ inning.runs }}</p>
+
     <p>Outs: {{ inning.outs }}</p>
 
     <p>Bases: {{ inning.bases }}</p>
@@ -105,7 +107,7 @@ export default {
             this.strikes++;
           }
           break;
-        case "groundout": // TODO handle GIDP
+        case "groundout": // TODO handle GIDP and man on 3rd/2nd advancing on GO
         case "flyout": // TODO handle sac fly
           this.inning.out();
           // new batter
@@ -116,15 +118,23 @@ export default {
         case "single":
         case "error": // TODO change how this is handled. for now, ok
           this.inning.baseHit(1);
+          this.balls = 0;
+          this.strikes = 0;
           break;
         case "double":
           this.inning.baseHit(2);
+          this.balls = 0;
+          this.strikes = 0;
           break;
         case "triple":
           this.inning.baseHit(3);
+          this.balls = 0;
+          this.strikes = 0;
           break;
         case "homer":
           this.inning.baseHit(4);
+          this.balls = 0;
+          this.strikes = 0;
           break;
       }
 
