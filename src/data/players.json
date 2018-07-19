@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Roy",
+    "number": 34,
+    "stamina": 100,
+    "arm": 80,
+    "control": 80,
+    "stuff": 90,
+    "power": 0,
+    "contact": 0,
+    "discipline": 0,
+    "speed": 50,
+    "fielding": 80
+  },
+  {
+    "name": "Chase",
+    "number": 26,
+    "stamina": 100,
+    "arm": 0,
+    "control": 0,
+    "stuff": 0,
+    "power": 80,
+    "contact": 60,
+    "discipline": 90,
+    "speed": 65,
+    "fielding": 90
+  },
+  {
+    "name": "Shohei",
+    "number": 17,
+    "stamina": 60,
+    "arm": 70,
+    "control": 60,
+    "stuff": 80,
+    "power": 70,
+    "contact": 50,
+    "discipline": 60,
+    "speed": 50,
+    "fielding": 50
+  },
+  {
+    "name": "Jimmy",
+    "number": 11,
+    "stamina": 90,
+    "arm": 0,
+    "control": 0,
+    "stuff": 0,
+    "power": 50,
+    "contact": 60,
+    "discipline": 40,
+    "speed": 90,
+    "fielding": 60
+  },
+  {
+    "name": "Ryan",
+    "number": 6,
+    "stamina": 80,
+    "arm": 0,
+    "control": 0,
+    "stuff": 0,
+    "power": 100,
+    "contact": 50,
+    "discipline": 50,
+    "speed": 40,
+    "fielding": 40
+  }
+]
