@@ -63,5 +63,18 @@
     "discipline": 50,
     "speed": 40,
     "fielding": 40
+  },
+  {
+    "name": "Trout",
+    "number": 27,
+    "stamina": 120,
+    "arm": 30,
+    "control": 10,
+    "stuff": 10,
+    "power": 120,
+    "contact": 120,
+    "discipline": 120,
+    "speed": 120,
+    "fielding": 120
   }
 ]

@@ -11,20 +11,14 @@
       </li>
     </ul>
 
-    <p v-if="pitcher">
-      Now pitching: {{ pitcher.title }}
-    </p>
-
-    <p v-if="batter">
-      Now batting: {{ batter.title }}
-    </p>
+    <Matchup v-if="batter && pitcher" :batter="batter" :pitcher="pitcher" />
 
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+import Matchup from "@/components/Matchup.vue";
 import Player from "@/models/Player";
 
 // load data
@@ -57,7 +51,7 @@ export default {
   },
 
   components: {
-    // HelloWorld
+    Matchup
   }
 };
 </script>
