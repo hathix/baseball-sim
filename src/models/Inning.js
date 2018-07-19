@@ -1,5 +1,7 @@
 // contains an inning's state
 
+import Vue from "vue";
+
 export default class Inning {
   constructor() {
     this.outs = 0;
@@ -26,17 +28,19 @@ export default class Inning {
     }
     else if (this.bases[0] && this.bases[1]) {
       // first and second. everyone advances, bases loaded
-      this.bases[2] = true;
+      // NOTE: we must update the array this way to make vue react.
+      // see https://vuejs.org/v2/guide/list.html#Caveats
+      Vue.set(this.bases, 2, true);
     }
     else if (this.bases[0]) {
       // man on first but nobody on second. (perhaps someone on third but
       // he doesn't move.)
       // add a man on second, effectively
-      this.bases[1] = true;
+      Vue.set(this.bases, 1, true);
     }
     else {
       // no force. either bases empty, 2nd&3rd occupied, 2nd occupied, or 3rd occupied.
-      this.bases[0] = true;
+      Vue.set(this.bases, 0, true);
     }
   }
 
@@ -67,7 +71,7 @@ export default class Inning {
       case 2: // third base
         // he moves up and scores no matter what (at this point we are sure
         // numBases > 0)
-        this.bases[2] = false;
+        Vue.set(this.bases, 2, false);
         this.runs++;
         break;
       case 1: // second base
@@ -77,10 +81,10 @@ export default class Inning {
         }
         // now, man on second can freely advance
         // (man on 3rd is dealt with so nobody in our way)
-        this.bases[1] = false;
+        Vue.set(this.bases, 1, false);
         if (numBases === 1) {
           // goes to third
-          this.bases[2] = true;
+          Vue.set(this.bases, 2, true);
         }
         else {
           // more than 1? score!
@@ -95,14 +99,14 @@ export default class Inning {
         // now nobody will be in the runner's way
         // (man on second will have moved as far as the man on first is about to
         // move)
-        this.bases[0] = false;
+        Vue.set(this.bases, 0, false);
         if (numBases === 1) {
           // go to 2nd
-          this.bases[1] = true;
+          Vue.set(this.bases, 1, true);
         }
         else if (numBases === 2) {
           // go to 3rd
-          this.bases[2] = true;
+          Vue.set(this.bases, 2, true);
         }
         else {
           // score
@@ -139,7 +143,7 @@ export default class Inning {
     this.advanceRunner(2, 1);
     this.advanceRunner(1, 1);
     this.advanceRunner(0, 1);
-    this.bases[0] = true;
+    Vue.set(this.bases, 0, true);
 
     this.errors++;
   }

@@ -11,9 +11,11 @@
 
     <button @click="nextPitch()">PITCH!</button>
 
-    <p>
-      {{ pitches }}
-    </p>
+    <ol reversed>
+      <li v-for="pitch in reversePitches" :key="pitch.number">
+        <strong>{{ pitch.short }}</strong>: <em>{{ pitch.verbose }}</em>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -53,11 +55,17 @@ export default {
   },
 
   computed: {
-    pitchResultPercentages: function() {
+    pitchResultPercentages() {
       return calculations.calculatePitchResultPercentages(
         this.batter,
         this.pitcher
       );
+    },
+
+    reversePitches() {
+      // you can't use _.reverse because that modifies the array in place
+      // here's a way to reverse w/o mutating
+      return [...this.pitches].reverse();
     }
   },
 
@@ -67,19 +75,26 @@ export default {
       // random sample
       let result = utils.weightedRandomSample(this.pitchResultPercentages);
 
+      // verbose description to show user
+      let verbose = "NO DESCRIPTION ERROR!";
+
       // add to this.pitches
       // TODO turn all results into Objects
       // TODO do something based on result
       switch(result) {
         case "ball":
           this.balls++;
-
           if (this.balls == 4) {
             // walk!
             this.inning.walk();
             // new batter
             this.balls = 0;
             this.strikes = 0;
+
+            verbose = `${this.batter.name} walks. ${this.inning.outs} out.`;
+          }
+          else {
+            verbose = `${this.batter.name} takes ball ${this.balls}.`;
           }
           break;
         case "strike":
@@ -92,14 +107,21 @@ export default {
             // new batter
             this.balls = 0;
             this.strikes = 0;
+
+            verbose = `${this.batter.name} strikes out. ${this.inning.outs} out.`;
+          }
+          else {
+            verbose = `${this.batter.name} takes strike ${this.strikes}.`;
           }
           break;
         case "foul":
           if (this.strikes == 2) {
             // nbd
+            verbose = `${this.batter.name} fouls one off and stays alive.`;
           }
           else {
             // counts as a strike
+            verbose = `${this.batter.name} fouls one off. Strike ${this.strikes}.`;
             this.strikes++;
           }
           break;
@@ -109,6 +131,8 @@ export default {
           // TODO abstract out
           this.balls = 0;
           this.strikes = 0;
+
+          verbose = `${this.batter.name} grounds out. ${this.inning.outs} out.`;
           break;
         case "flyout": // TODO handle sac fly
           this.inning.out();
@@ -116,6 +140,11 @@ export default {
           if (this.inning.bases[2]) {
             // man on 3rd. can score on sac fly
             this.inning.sacFly();
+
+            verbose = `${this.batter.name} hits a sacrifice fly! ${this.inning.outs} out.`;
+          }
+          else {
+            verbose = `${this.batter.name} flies out. ${this.inning.outs} out.`;
           }
 
           // new batter
@@ -124,31 +153,52 @@ export default {
           this.strikes = 0;
           break;
         case "single":
-        case "error": // TODO change how this is handled. for now, ok
           this.inning.baseHit(1);
           this.balls = 0;
           this.strikes = 0;
+
+          verbose = `${this.batter.name} singles! ${this.inning.outs} out.`;
+          break;
+        case "error":
+          this.inning.error();
+          this.balls = 0;
+          this.strikes = 0;
+
+          verbose = `${this.batter.name} reaches on error. ${this.inning.outs} out.`;
           break;
         case "double":
           this.inning.baseHit(2);
           this.balls = 0;
           this.strikes = 0;
+
+          verbose = `${this.batter.name} doubles! ${this.inning.outs} out.`;
           break;
         case "triple":
           this.inning.baseHit(3);
           this.balls = 0;
           this.strikes = 0;
+
+          verbose = `${this.batter.name} triples! ${this.inning.outs} out.`;
           break;
         case "homer":
           this.inning.baseHit(4);
           this.balls = 0;
           this.strikes = 0;
+
+          verbose = `${this.batter.name} homers! ${this.inning.outs} out.`;
           break;
       }
 
 
+      this.pitches.push({
+        number: this.pitches.length,
 
-      this.pitches.push(result);
+        // quick description
+        short: result,
+
+        // long description
+        verbose: verbose
+      });
 
       return result;
     }
