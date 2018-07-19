@@ -6,6 +6,12 @@
     <p>Now Pitching: {{ pitcher.title }}</p>
     <p>Now Batting: {{ batter.title }}</p>
 
+    <p>Count: {{ balls }}-{{ strikes}}</p>
+
+    <p>Outs: {{ inning.outs }}</p>
+
+    <p>Bases: {{ inning.bases }}</p>
+
     <button @click="nextPitch()">PITCH!</button>
 
     <p>
@@ -20,6 +26,7 @@
 import Player from "@/models/Player";
 import calculations from "@/models/Calculations";
 import utils from "@/lib/utils";
+import Inning from "@/models/Inning";
 
 // // load data
 // import rawPlayers from "@/data/players.json";
@@ -32,12 +39,18 @@ export default {
 
   props: {
     pitcher: Player,
-    batter: Player
+    batter: Player,
   },
 
   data: function() {
     return {
-      pitches: []
+      pitches: [],
+
+      balls: 0,
+      strikes: 0,
+
+      // holds state like outs, base runners, etc
+      inning: new Inning()
     };
   },
 
@@ -59,7 +72,61 @@ export default {
       // add to this.pitches
       // TODO turn all results into Objects
       // TODO do something based on result
+      switch(result) {
+        case "ball":
+          this.balls++;
 
+          if (this.balls == 4) {
+            // walk!
+            this.inning.walk();
+            // new batter
+            this.balls = 0;
+            this.strikes = 0;
+          }
+          break;
+        case "strike":
+          this.strikes++;
+
+          if (this.strikes == 3) {
+            // strikeout!
+            this.inning.out();
+
+            // new batter
+            this.balls = 0;
+            this.strikes = 0;
+          }
+          break;
+        case "foul":
+          if (this.strikes == 2) {
+            // nbd
+          }
+          else {
+            // counts as a strike
+            this.strikes++;
+          }
+          break;
+        case "groundout": // TODO handle GIDP
+        case "flyout": // TODO handle sac fly
+          this.inning.out();
+          // new batter
+          // TODO abstract out
+          this.balls = 0;
+          this.strikes = 0;
+          break;
+        case "single":
+        case "error": // TODO change how this is handled. for now, ok
+          this.inning.baseHit(1);
+          break;
+        case "double":
+          this.inning.baseHit(2);
+          break;
+        case "triple":
+          this.inning.baseHit(3);
+          break;
+        case "homer":
+          this.inning.baseHit(4);
+          break;
+      }
 
 
 
