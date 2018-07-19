@@ -3,23 +3,39 @@
 
     <h2>SCOREBOARD</h2>
 
-    <span class="light ball-light" :class="{ on: balls > 0}"></span>
-    <span class="light ball-light" :class="{ on: balls > 1}"></span>
-    <span class="light ball-light" :class="{ on: balls > 2}"></span>
+    <div>
+      <span class="light ball-light" :class="{ on: balls > 0}"></span>
+      <span class="light ball-light" :class="{ on: balls > 1}"></span>
+      <span class="light ball-light" :class="{ on: balls > 2}"></span>
+
+      <br>
+
+      <span class="light strike-light" :class="{ on: strikes > 0}"></span>
+      <span class="light strike-light" :class="{ on: strikes > 1}"></span>
+
+      <br>
+
+      <span class="light out-light" :class="{ on: inning.outs > 0}"></span>
+      <span class="light out-light" :class="{ on: inning.outs > 1}"></span>
+
+    </div>
 
     <br>
 
-    <span class="light strike-light" :class="{ on: strikes > 0}"></span>
-    <span class="light strike-light" :class="{ on: strikes > 1}"></span>
+    <div class="bases">
+      <div class="base base-3rd" :class="{ on: inning.bases[2] }"></div>
+      <div class="base base-2nd" :class="{ on: inning.bases[1] }"></div>
+      <div class="base base-1st" :class="{ on: inning.bases[0] }"></div>
+    </div>
 
 
-    <p>Count: {{ balls }}-{{ strikes}}</p>
+    <!-- <p>Count: {{ balls }}-{{ strikes}}</p> -->
 
     <p>Runs: {{ inning.runs }}</p>
 
-    <p>Outs: {{ inning.outs }}</p>
+    <!-- <p>Outs: {{ inning.outs }}</p> -->
 
-    <p>Bases: {{ inning.bases }}</p>
+    <!-- <p>Bases: {{ inning.bases }}</p> -->
   </div>
 </template>
 
@@ -94,5 +110,36 @@ export default {
     &.on {
       background-color: red;
     }
+  }
+
+  .out-light {
+    border: 1px solid blue;
+
+    &.on {
+      background-color: blue;
+    }
+  }
+
+  .bases {
+    min-height: 40px;
+  }
+
+  .base {
+    display: inline-block;
+    position: relative;
+
+    border: 1px solid gold;
+
+    width: 20px;
+    height: 20px;
+    // margin: 1px;
+    transform: rotate(45deg);
+
+    &.on {
+      background-color: gold;
+    }
+  }
+  .base-1st, .base-3rd {
+    top: 20px;
   }
 </style>
