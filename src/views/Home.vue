@@ -4,10 +4,15 @@
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
     <ul id="example-1">
-      <li v-for="player in players">
+      <li v-for="player in players" :key="player.name">
         {{ player.name }} #{{ player.number }}
+        <button @click="setPitcher(player)">Pitch</button>
       </li>
     </ul>
+
+    <li v-if="pitcher">
+      Now pitching: {{ pitcher.name }}
+    </li>
 
   </div>
 </template>
@@ -19,14 +24,22 @@
 // load data
 import players from "@/data/players.json";
 
-console.log(players);
-
 export default {
   name: "home",
 
-  data(){
+  data: function(){
     return {
-      players: players
+      players: players,
+
+      pitcher: null,
+      batter: null
+    }
+  },
+
+  methods: {
+    setPitcher(player){
+      console.log("SET PITCHER");
+      this.pitcher = player;
     }
   },
 
