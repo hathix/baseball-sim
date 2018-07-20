@@ -130,10 +130,10 @@ export default {
             verbose = `${this.batter.name} fouls one off and stays alive.`;
           } else {
             // counts as a strike
+            this.strikes++;
             verbose = `${this.batter.name} fouls one off. Strike ${
               this.strikes
             }.`;
-            this.strikes++;
           }
           break;
         case PitchOutcomes.Groundout: // TODO handle man on 3rd/2nd advancing on GO
