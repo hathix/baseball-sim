@@ -40,7 +40,7 @@ export default {
 
   props: {
     pitcher: Player,
-    batter: Player,
+    batter: Player
   },
 
   data: function() {
@@ -57,10 +57,7 @@ export default {
 
   computed: {
     pitchOutcomePercentages() {
-      return calculations.getPitchOutcomePercentages(
-        this.batter,
-        this.pitcher
-      );
+      return calculations.getPitchOutcomePercentages(this.batter, this.pitcher);
     },
 
     reversePitches() {
@@ -74,13 +71,14 @@ export default {
     nextPitch() {
       // calculate pitch result based on percentages
       // random sample
-      let outcomeName = utils.weightedRandomSample(this.pitchOutcomePercentages);
+      let outcomeName = utils.weightedRandomSample(
+        this.pitchOutcomePercentages
+      );
       // the outcome name is a string... we need to put it back to the enum value
       let outcome = PitchOutcomes.enumValueOf(outcomeName);
 
       // verbose description to show user
       let verbose = "NO DESCRIPTION ERROR!";
-
 
       // TODO rethink division of labor between this class and inning class
       // someone has to manage interface between players and inning status
@@ -93,7 +91,7 @@ export default {
       // add to this.pitches
       // TODO turn all results into Objects
       // TODO do something based on result
-      switch(outcome) {
+      switch (outcome) {
         case PitchOutcomes.Ball:
           this.balls++;
           if (this.balls == 4) {
@@ -104,8 +102,7 @@ export default {
             this.strikes = 0;
 
             verbose = `${this.batter.name} walks. ${this.inning.outs} out.`;
-          }
-          else {
+          } else {
             verbose = `${this.batter.name} takes ball ${this.balls}.`;
           }
           break;
@@ -120,9 +117,10 @@ export default {
             this.balls = 0;
             this.strikes = 0;
 
-            verbose = `${this.batter.name} strikes out. ${this.inning.outs} out.`;
-          }
-          else {
+            verbose = `${this.batter.name} strikes out. ${
+              this.inning.outs
+            } out.`;
+          } else {
             verbose = `${this.batter.name} takes strike ${this.strikes}.`;
           }
           break;
@@ -130,10 +128,11 @@ export default {
           if (this.strikes == 2) {
             // nbd
             verbose = `${this.batter.name} fouls one off and stays alive.`;
-          }
-          else {
+          } else {
             // counts as a strike
-            verbose = `${this.batter.name} fouls one off. Strike ${this.strikes}.`;
+            verbose = `${this.batter.name} fouls one off. Strike ${
+              this.strikes
+            }.`;
             this.strikes++;
           }
           break;
@@ -141,17 +140,19 @@ export default {
           if (this.inning.outs < 2 && this.inning.bases[0]) {
             // TODO make this happen only a percentage of the time
             this.inning.doublePlay();
-            verbose = `${this.batter.name} grounds into a double play. ${this.inning.outs} out.`;
-          }
-          else {
+            verbose = `${this.batter.name} grounds into a double play. ${
+              this.inning.outs
+            } out.`;
+          } else {
             this.inning.out();
-            verbose = `${this.batter.name} grounds out. ${this.inning.outs} out.`;
+            verbose = `${this.batter.name} grounds out. ${
+              this.inning.outs
+            } out.`;
           }
           // new batter
           // TODO abstract out
           this.balls = 0;
           this.strikes = 0;
-
 
           break;
         case PitchOutcomes.Flyout:
@@ -161,9 +162,10 @@ export default {
             // man on 3rd. can score on sac fly
             this.inning.sacFly();
 
-            verbose = `${this.batter.name} hits a sacrifice fly! ${this.inning.outs} out.`;
-          }
-          else {
+            verbose = `${this.batter.name} hits a sacrifice fly! ${
+              this.inning.outs
+            } out.`;
+          } else {
             verbose = `${this.batter.name} flies out. ${this.inning.outs} out.`;
           }
 
@@ -184,7 +186,9 @@ export default {
           this.balls = 0;
           this.strikes = 0;
 
-          verbose = `${this.batter.name} reaches on error. ${this.inning.outs} out.`;
+          verbose = `${this.batter.name} reaches on error. ${
+            this.inning.outs
+          } out.`;
           break;
         case PitchOutcomes.Double:
           this.inning.baseHit(2);

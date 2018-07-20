@@ -1,6 +1,5 @@
 import { Enum } from "enumify";
 
-
 export class Pitch {
   constructor({ number, speed, type, outcome, description }) {
     this.number = number; // pitch # in the inning
@@ -11,7 +10,7 @@ export class Pitch {
   }
 }
 
-export class PitchTypes extends Enum { }
+export class PitchTypes extends Enum {}
 PitchTypes.initEnum([
   // fastballs
   "FourSeamFastball",
@@ -37,41 +36,61 @@ PitchTypes.initEnum([
   "Gyroball"
 ]);
 
-export class PitchOutcomes extends Enum { }
+export class PitchOutcomes extends Enum {}
 PitchOutcomes.initEnum({
   // not in play
-  "Ball": {
-    get readableName() { return "Ball" }
+  Ball: {
+    get readableName() {
+      return "Ball";
+    }
   },
-  "Strike": {
-    get readableName() { return "Strike" }
+  Strike: {
+    get readableName() {
+      return "Strike";
+    }
   },
-  "Foul": {
-    get readableName() { return "Foul" }
+  Foul: {
+    get readableName() {
+      return "Foul";
+    }
   },
 
   // in play, out(s)
-  "Groundout": {
-    get readableName() { return "Groundout" }
+  Groundout: {
+    get readableName() {
+      return "Groundout";
+    }
   },
-  "Flyout": {
-    get readableName() { return "Flyout" }
+  Flyout: {
+    get readableName() {
+      return "Flyout";
+    }
   },
 
   // in play, no out
-  "Single": {
-    get readableName() { return "Single" }
+  Single: {
+    get readableName() {
+      return "Single";
+    }
   },
-  "Double": {
-    get readableName() { return "Double" }
+  Double: {
+    get readableName() {
+      return "Double";
+    }
   },
-  "Triple": {
-    get readableName() { return "Triple" }
+  Triple: {
+    get readableName() {
+      return "Triple";
+    }
   },
-  "HomeRun": {
-    get readableName() { return "Home Run" }
+  HomeRun: {
+    get readableName() {
+      return "Home Run";
+    }
   },
-  "Error": {
-    get readableName() { return "Error" }
-  },
+  Error: {
+    get readableName() {
+      return "Error";
+    }
+  }
 });

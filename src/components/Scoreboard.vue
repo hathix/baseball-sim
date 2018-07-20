@@ -60,7 +60,7 @@ export default {
     balls: Number,
     strikes: Number,
     inning: Inning
-  },
+  }
 
   // data: function(){
   //   return {
@@ -89,57 +89,58 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .light {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    margin: 2px;
+.light {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin: 2px;
+}
+
+.ball-light {
+  border: 1px solid green;
+  &.on {
+    background-color: green;
   }
+}
 
-  .ball-light {
-    border: 1px solid green;
-      &.on {
-        background-color: green;
-      }
+.strike-light {
+  border: 1px solid red;
+
+  &.on {
+    background-color: red;
   }
+}
 
-  .strike-light {
-    border: 1px solid red;
+.out-light {
+  border: 1px solid blue;
 
-    &.on {
-      background-color: red;
-    }
+  &.on {
+    background-color: blue;
   }
+}
 
-  .out-light {
-    border: 1px solid blue;
+.bases {
+  min-height: 40px;
+}
 
-    &.on {
-      background-color: blue;
-    }
+.base {
+  display: inline-block;
+  position: relative;
+
+  border: 1px solid gold;
+
+  width: 20px;
+  height: 20px;
+  // margin: 1px;
+  transform: rotate(45deg);
+
+  &.on {
+    background-color: gold;
   }
-
-  .bases {
-    min-height: 40px;
-  }
-
-  .base {
-    display: inline-block;
-    position: relative;
-
-    border: 1px solid gold;
-
-    width: 20px;
-    height: 20px;
-    // margin: 1px;
-    transform: rotate(45deg);
-
-    &.on {
-      background-color: gold;
-    }
-  }
-  .base-1st, .base-3rd {
-    top: 20px;
-  }
+}
+.base-1st,
+.base-3rd {
+  top: 20px;
+}
 </style>

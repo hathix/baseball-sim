@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { PitchOutcomes } from "@/models/Pitch";
 
-
 export default {
   getPitchOutcomePercentages(batter, pitcher) {
     // returns percentages of outcomes
