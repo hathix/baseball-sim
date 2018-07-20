@@ -163,8 +163,8 @@ export default class Inning {
   }
 
   sacFly() {
-    // only possible if man on 2nd
-    if (this.bases[2]) {
+    // only possible if man on 2nd and 0 or 1 out
+    if (this.bases[2] && this.outs < 2) {
       // suppose this is successful
       // TODO; have some condition on it succeeding
       // TODO; also advance man on 2nd sometimes

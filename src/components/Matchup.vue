@@ -158,7 +158,7 @@ export default {
         case PitchOutcomes.Flyout:
           this.inning.out();
 
-          if (this.inning.bases[2]) {
+          if (this.inning.bases[2] && this.inning.outs < 2) {
             // man on 3rd. can score on sac fly
             this.inning.sacFly();
 
