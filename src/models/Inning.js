@@ -147,7 +147,6 @@ export default class Inning {
     else {
       // get on base
       Vue.set(this.bases, numBases - 1, true);
-      
     }
 
     // add to base hit count
