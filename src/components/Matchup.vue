@@ -14,6 +14,7 @@
     <ol reversed>
       <li v-for="pitch in reversePitches" :key="pitch.number">
         <strong>{{ pitch.outcome.readableName }}</strong>: <em>{{ pitch.description }}</em>
+        <!-- ({{ pitch.type.name }}, {{ pitch.speed }}mph) -->
       </li>
     </ol>
   </div>
@@ -27,7 +28,7 @@ import calculations from "@/models/Calculations";
 import utils from "@/lib/utils";
 import Inning from "@/models/Inning";
 import Scoreboard from "@/components/Scoreboard";
-import { Pitch, PitchOutcomes } from "@/models/Pitch";
+import { Pitch, PitchOutcomes, PitchTypes } from "@/models/Pitch";
 
 // // load data
 // import rawPlayers from "@/data/players.json";
@@ -131,7 +132,7 @@ export default {
           } else {
             // counts as a strike
             this.strikes++;
-            verbose = `${this.batter.name} fouls one off. Strike ${
+            verbose = `${this.batter.name} fouls off strike ${
               this.strikes
             }.`;
           }
@@ -217,7 +218,7 @@ export default {
       let pitch = new Pitch({
         number: this.pitches.length,
         speed: 90,
-        type: null,
+        type: PitchTypes.Curveball,
 
         // quick description
         outcome: outcome,
