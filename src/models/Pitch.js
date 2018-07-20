@@ -2,7 +2,8 @@ import { Enum } from "enumify";
 
 
 export class Pitch {
-  constructor({ speed, type, outcome, description }) {
+  constructor({ number, speed, type, outcome, description }) {
+    this.number = number; // pitch # in the inning
     this.speed = speed; // in mph
     this.type = type; // from PitchTypes
     this.outcome = outcome; // from PitchOutcomes
@@ -37,20 +38,40 @@ PitchTypes.initEnum([
 ]);
 
 export class PitchOutcomes extends Enum { }
-PitchResults.initEnum([
+PitchOutcomes.initEnum({
   // not in play
-  "Ball",
-  "Strike",
-  "Foul",
+  "Ball": {
+    get readableName() { return "Ball" }
+  },
+  "Strike": {
+    get readableName() { return "Strike" }
+  },
+  "Foul": {
+    get readableName() { return "Foul" }
+  },
 
   // in play, out(s)
-  "Groundout",
-  "Flyout",
+  "Groundout": {
+    get readableName() { return "Groundout" }
+  },
+  "Flyout": {
+    get readableName() { return "Flyout" }
+  },
 
   // in play, no out
-  "Single",
-  "Double",
-  "Triple",
-  "HomeRun",
-  "Error"
-]);
+  "Single": {
+    get readableName() { return "Single" }
+  },
+  "Double": {
+    get readableName() { return "Double" }
+  },
+  "Triple": {
+    get readableName() { return "Triple" }
+  },
+  "HomeRun": {
+    get readableName() { return "Home Run" }
+  },
+  "Error": {
+    get readableName() { return "Error" }
+  },
+});

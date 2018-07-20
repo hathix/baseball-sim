@@ -13,21 +13,21 @@ export default {
 
     return {
       // not in play. 75%
-      [PitchOutcomes.Ball]: 0.38,
-      [PitchOutcomes.Strike]: 0.18,
-      [PitchOutcomes.Foul]: 0.19,
+      [PitchOutcomes.Ball.name]: 0.38,
+      [PitchOutcomes.Strike.name]: 0.18,
+      [PitchOutcomes.Foul.name]: 0.19,
 
       // in play. 25%
       // out. 17%
-      [PitchOutcomes.Groundout]: 0.11,
-      [PitchOutcomes.Flyout]: 0.06,
+      [PitchOutcomes.Groundout.name]: 0.11,
+      [PitchOutcomes.Flyout.name]: 0.06,
 
       // not out. 8%
-      [PitchOutcomes.Single]: 0.04,
-      [PitchOutcomes.Double]: 0.02,
-      [PitchOutcomes.Triple]: 0.005,
-      [PitchOutcomes.HomeRun]: 0.01,
-      [PitchOutcomes.Error]: 0.005
+      [PitchOutcomes.Single.name]: 0.04,
+      [PitchOutcomes.Double.name]: 0.02,
+      [PitchOutcomes.Triple.name]: 0.005,
+      [PitchOutcomes.HomeRun.name]: 0.01,
+      [PitchOutcomes.Error.name]: 0.005
     };
   }
 };
