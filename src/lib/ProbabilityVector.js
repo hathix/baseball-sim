@@ -45,13 +45,16 @@ export default class ProbabilityVector {
     probabilities getting picked more often.
   */
   sample() {
+    // first off, make sure we're using a normalized vector
+    let normalized = this.normalize()
+
     // weightedRandomSample({"a":0.8, "b":0.1, "c":0.1}); // random in distribution...
     // https://stackoverflow.com/a/8435261
     var i,
       sum = 0,
       r = Math.random();
-    for (i in this.data) {
-      sum += this.data[i];
+    for (i in normalized.data) {
+      sum += normalized.data[i];
       if (r <= sum) return i;
     }
   }
