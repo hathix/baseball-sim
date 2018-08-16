@@ -1,7 +1,7 @@
 {
   "ball": 0.35,
-  "strike_looking": 0.185,
-  "strike_swinging": 0.07,
+  "strikeLooking": 0.185,
+  "strikeSwinging": 0.07,
   "foul": 0.20,
   "flyout": 0.03,
   "groundout": 0.05,
