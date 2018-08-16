@@ -14,12 +14,12 @@ export default class GameState {
       // TODO make Team objects
       home: null,
       away: null
-    }
+    };
 
     this.inning = {
       number: 1,
       top: true
-    }
+    };
 
     this.scores = {
       home: {
@@ -32,9 +32,8 @@ export default class GameState {
         hits: 0,
         errors: 0
       }
-    }
+    };
 
     // this.currentInning
-
   }
 }

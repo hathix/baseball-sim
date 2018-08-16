@@ -6,12 +6,12 @@
 import Event from "@/models/Event";
 
 export default class Pitch extends Event {
-  constructor({ pitcher /* Player */, batter /* Player */,  }){
-    super()
+  constructor({ pitcher /* Player */, batter /* Player */ }) {
+    super();
   }
 
   get description() {
-    return "Pitch thrown!"
+    return "Pitch thrown!";
   }
 }
 

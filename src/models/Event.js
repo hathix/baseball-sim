@@ -3,11 +3,9 @@
   steal, pitching change, etc. is an event. There may be several subclasses.
 */
 export default class Event {
-  constructor() {
-
-  }
+  constructor() {}
 
   get description() {
-    return "Something happens!"
+    return "Something happens!";
   }
 }
