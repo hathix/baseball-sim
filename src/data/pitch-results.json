@@ -1,0 +1,15 @@
+{
+  "ball": 0.35,
+  "strike_looking": 0.185,
+  "strike_swinging": 0.07,
+  "foul": 0.20,
+  "flyout": 0.03,
+  "groundout": 0.05,
+  "lineout": 0.015,
+  "popout": 0.015,
+  "single": 0.04,
+  "double": 0.02,
+  "triple": 0.005,
+  "homer": 0.015,
+  "error": 0.005
+}

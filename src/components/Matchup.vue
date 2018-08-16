@@ -132,9 +132,7 @@ export default {
           } else {
             // counts as a strike
             this.strikes++;
-            verbose = `${this.batter.name} fouls off strike ${
-              this.strikes
-            }.`;
+            verbose = `${this.batter.name} fouls off strike ${this.strikes}.`;
           }
           break;
         case PitchOutcomes.Groundout: // TODO handle man on 3rd/2nd advancing on GO
