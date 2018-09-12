@@ -21,21 +21,21 @@ export default class HalfInning {
     // is anyone on the bases?
     // values here are the runners on base
     // bases are zero-indexed
-    this.bases = [ null, null, null ]
+    this.baserunners = [ null, null, null ]
 
     this.batter = { name: "Chase" }
     this.pitcher = { name: "Roy" }
   }
 
   /**
-    Changes whether there is a runner on base `number`
+    Changes which runner on base `number` (`null` if nobody on anymore)
     (zero-indexed, so 2nd base is 1)
   */
-  setBase(number, isRunner) {
-    Vue.set(this.bases, number, isRunner);
+  setBaserunner(number, runner) {
+    Vue.set(this.baserunners, number, runner);
   }
 
 
-  // Every possible atomic pitch result can be called here - from ball to homer
+  // Every possible atomic pitch result can be called here - from ball to homer.
   // that will update the current half-inning state
 }
