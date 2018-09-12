@@ -39,6 +39,11 @@ export default class GameState {
     // starts the game
     // start the top of the 1st; subsequent innings will be created on demand
     // half-innings are zero-indexed, so bottom of the 9th is #17
+    this.nextHalfInning()
+  }
+
+  nextHalfInning() {
+    // start an empty new half inning 
     this.currentHalfInning = new HalfInning()
     this.halfInnings.push(currentHalfInning)
   }

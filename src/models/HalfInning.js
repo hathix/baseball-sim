@@ -7,9 +7,14 @@ import Vue from "vue";
 */
 export default class HalfInning {
   constructor(){
+
+    // all the temporary state for a half-inning lives here
+    // a new halfinning class is created for each half-inning 
+
     this.outs = 0
 
     // stuff that will be relevant for future tabulation
+    // this is only for this half-inning
     this.runs = 0
     this.hits = 0
     this.errors = 0
