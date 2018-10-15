@@ -27,44 +27,92 @@ export default class HalfInning {
 
     // is anyone on the bases?
     // values here are the runners on base
-    // bases are zero-indexed
-    this.baserunners = [ null, null, null ]
+    // bases are one-indexed
+    // (baserunners[0] is home, representing the batter-runner)
+    this.baserunners = [ null, null, null, null ]
 
     this.batter = { name: "Chase" }
     this.pitcher = { name: "Roy" }
   }
 
   /**
-    Changes which runner on base `number` (`null` if nobody on anymore)
-    (zero-indexed, so 2nd base is 1)
+    Changes which runner on base `base` (`null` if nobody on anymore)
+
+    Do NOT change this.baserunners directly! Vue won't update the view if you do.
   */
-  setBaserunner(number, runner) {
-    Vue.set(this.baserunners, number, runner);
+  setBaserunner(base, runner) {
+    if (base >= 4) {
+      // home or beyond; do nothing
+      return
+    }
+    Vue.set(this.baserunners, base, runner)
   }
 
   clearBase(number) {
-    this.setBaserunner(number, null);
+    this.setBaserunner(number, null)
   }
 
   /**
     Moves whoever is on `from` to `to` (base numbers).
-    Does not check if someone is already on the `to` base!!
-    Does not check if you went past home
+    Does not check if someone is already on the `to` base!
+    Does not check if you went past home.
+  */
+  // moveBaserunner(from, to) {
+  //   let runner = this.baserunners[from]
+  //   this.setBaserunner(to, runner)
+  //   this.clearBase(from)
+  // }
+
+  /**
+    An alias for `advanceBaserunner` that does some subtraction for you.
+    Give the indices of 2 bases here.
   */
   moveBaserunner(from, to) {
-    let runner = this.baserunners[from]
-    this.setBaserunner(to, runner)
-    this.clearBase(from)
+    this.advanceBaserunner(from, to - from)
   }
 
   /**
     Advances the baserunner at base number `from` the given number of bases.
-    checks if you went home or further, in which case it awards runs.
+    Checks if you went home or further, in which case it awards runs.
+    This will check for forcing; forced runners all advance one base.
+      (so this is not to be used directly for base hits; this is mostly
+      for walks, balks, or other situations where one player advances
+      and the others stay unless forced)
   */
   advanceBaserunner(from, numBases) {
+      let to = from + numBases
 
+      // if there's anyone between `from` (exclusive) and `to` (inclusive),
+      // force them up
+      // I'm pretty sure that nobody can get forced up 2 bases, but we'll be
+      // robust to it here.
+      // e.g. a walk with the bases loaded will force up the man on 1st,
+      // who will force the man on 2nd, who will force the man on 3rd
+      // forcing can be done recursively: force up the first man in your way,
+      // and he'll force up anyone after
+      for (let i = from + 1; i <= to; i++) {
+        if (this.baserunners[i] !== null) {
+          // force this man up until he's just past `to`
+          // moveBaserunner is an alias for advanceBaserunner so it'll call
+          // this recursively
+          this.moveBaserunner(i, to + 1)
+          break // no more forcing b/c the previous call will recursively force
+        }
+      }
+
+      let runner = this.baserunners[from]
+      // advance runner; setBaserunner will fail silently if the runner
+      // goes past home (which is fine)
+      this.setBaserunner(to, runner)
+      this.clearBase(from)
+
+      if (to >= 4) {
+        // scores a run
+        this.runs++
+      }
   }
 
+  // TODO needs rewrite
   advanceAllRunners(numBases) {
     if (numBases === 0) {
       return
@@ -74,24 +122,23 @@ export default class HalfInning {
     // does not include forcing; this is primarily used for hitting
     // and errors and balks. not walks.
     // move them all from 3rd base forward
-    if (this.baserunners[2]) {
+    if (this.baserunners[3]) {
       // third base
       // we are guaranteed that numBases >= 1
       // so anybody on 3rd will score no matter what
-      this.clearBase(2)
+      this.clearBase(3)
       this.runs++
     }
-    if (this.baserunners[1]) {
+    if (this.baserunners[2]) {
       // second base
       if (numBases >= 2) {
         // this person auto-scores w/ a double or bigger
-        this.clearBase(1)
+        this.clearBase(2)
         this.runs++
       }
       else {
-        // just advancing one base - from 2nd (1) to 3rd (2)
-        // dumb zero-indexing
-        this.moveBaserunner(1, 2)
+        // just advancing one base
+        this.moveBaserunner(2, 3)
       }
     }
     if (this.baserunners[0]) {
