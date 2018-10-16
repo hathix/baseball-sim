@@ -6,7 +6,7 @@
 import Event from "@/models/Event";
 
 export default class Pitch extends Event {
-  constructor({ pitcher /* Player */, batter /* Player */, pitchType, speed, outcome }) {
+  constructor({ pitcher /* Player */, batter /* Player */, pitchType, speed, outcome, params }) {
     super()
 
     this.pitcher = pitcher
@@ -18,6 +18,9 @@ export default class Pitch extends Event {
 
     // outcome
     this.outcome = outcome // one of "single", "walk", etc
+    this.params = params // depends on the pitch. some might have special parameters
+      // like how a fielder's choice might get someone at any base out
+      // or a GIDP could get men at 2nd+3rd or 1st+2nd out
   }
 
   get description() {

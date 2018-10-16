@@ -174,7 +174,6 @@ export default class HalfInning {
       // to other funtions
       switch (ev.outcome) {
         case "ball":
-          // TODO
           this.ball(ev)
           break
         case "strikeSwinging":
@@ -202,6 +201,14 @@ export default class HalfInning {
           break
         case "error":
           this.error(ev)
+          break
+        case "sacFly":
+          this.sacFly(ev)
+          break
+        case "flyout":
+        case "groundout":
+        case "lineout":
+          this.batterOut()
           break
         default:
           console.log("not handling", ev.outcome)
@@ -232,10 +239,18 @@ export default class HalfInning {
     this.hits++
   }
 
-  error(pitch, numBases) {
+  error(pitch) {
     // for now we assume an error is just like a single
     this.advanceAllRunners(1)
     this.errors++
+  }
+
+  sacFly(pitch) {
+    // guy on 3rd scores, batter is out
+    this.batterOut()
+    if (this.outs < 3) {
+      this.advanceBaseRunner(3, 1)
+    }
   }
 
   strike(pitch) {
