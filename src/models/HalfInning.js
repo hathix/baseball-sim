@@ -8,7 +8,7 @@ import Pitch from "@/models/Pitch";
   store past ones in memory so as to keep a log of the whole game.
 */
 export default class HalfInning {
-  constructor(){
+  constructor() {
 
     // all the temporary state for a half-inning lives here
     // a new halfinning class is created for each half-inning
@@ -29,10 +29,14 @@ export default class HalfInning {
     // values here are the runners on base
     // bases are one-indexed
     // (baserunners[0] is home, representing the batter-runner)
-    this.baserunners = [ null, null, null, null ]
+    this.baserunners = [null, null, null, null]
 
-    this.batter = { name: "Chase" }
-    this.pitcher = { name: "Roy" }
+    this.batter = {
+      name: "Chase"
+    }
+    this.pitcher = {
+      name: "Roy"
+    }
   }
 
   /**
@@ -80,78 +84,69 @@ export default class HalfInning {
       and the others stay unless forced)
   */
   advanceBaserunner(from, numBases) {
-      let to = from + numBases
+    if (this.baserunners[from] === null) {
+      // nobody to move
+      return
+    }
 
-      // if there's anyone between `from` (exclusive) and `to` (inclusive),
-      // force them up
-      // I'm pretty sure that nobody can get forced up 2 bases, but we'll be
-      // robust to it here.
-      // e.g. a walk with the bases loaded will force up the man on 1st,
-      // who will force the man on 2nd, who will force the man on 3rd
-      // forcing can be done recursively: force up the first man in your way,
-      // and he'll force up anyone after
-      for (let i = from + 1; i <= to; i++) {
-        if (this.baserunners[i] !== null) {
-          // force this man up until he's just past `to`
-          // moveBaserunner is an alias for advanceBaserunner so it'll call
-          // this recursively
-          this.moveBaserunner(i, to + 1)
-          break // no more forcing b/c the previous call will recursively force
-        }
+    let to = from + numBases
+
+    // if there's anyone between `from` (exclusive) and `to` (inclusive),
+    // force them up
+    // I'm pretty sure that nobody can get forced up 2 bases, but we'll be
+    // robust to it here.
+    // e.g. a walk with the bases loaded will force up the man on 1st,
+    // who will force the man on 2nd, who will force the man on 3rd
+    // forcing can be done recursively: force up the first man in your way,
+    // and he'll force up anyone after
+    for (let i = from + 1; i <= to; i++) {
+      if (this.baserunners[i] !== null) {
+        // force this man up until he's just past `to`
+        // moveBaserunner is an alias for advanceBaserunner so it'll call
+        // this recursively
+        this.moveBaserunner(i, to + 1)
+        break // no more forcing b/c the previous call will recursively force
       }
+    }
 
-      let runner = this.baserunners[from]
-      // advance runner; setBaserunner will fail silently if the runner
-      // goes past home (which is fine)
-      this.setBaserunner(to, runner)
-      this.clearBase(from)
+    let runner = this.baserunners[from]
+    // advance runner; setBaserunner will fail silently if the runner
+    // goes past home (which is fine)
+    this.setBaserunner(to, runner)
+    this.clearBase(from)
 
-      if (to >= 4) {
-        // scores a run
-        this.runs++
-      }
+    if (to >= 4) {
+      // scores a run
+      this.runs++
+    }
   }
 
-  // TODO needs rewrite
+  /**
+    Moves all runners up the given number of bases.
+    This is useful for base hits.
+  */
   advanceAllRunners(numBases) {
     if (numBases === 0) {
       return
     }
 
-    // moves all runners up a certain number of bases
-    // does not include forcing; this is primarily used for hitting
-    // and errors and balks. not walks.
-    // move them all from 3rd base forward
-    if (this.baserunners[3]) {
-      // third base
-      // we are guaranteed that numBases >= 1
-      // so anybody on 3rd will score no matter what
-      this.clearBase(3)
-      this.runs++
+    // there's not really any forcing here; instead everyone moves independently
+    // so we'll advance all the runners simultaneously. The best way to
+    // simulate that is to move the man on 3rd, then on 2nd, then on 1st, then
+    // the batter-runner
+    for (let i = 3; i <= 0; i--) {
+      this.advanceBaserunner(i, numBases)
     }
-    if (this.baserunners[2]) {
-      // second base
-      if (numBases >= 2) {
-        // this person auto-scores w/ a double or bigger
-        this.clearBase(2)
-        this.runs++
-      }
-      else {
-        // just advancing one base
-        this.moveBaserunner(2, 3)
-      }
-    }
-    if (this.baserunners[0]) {
-      if (numBases >= 3) {
-        // a triple or better scores this person
-        this.clearBase(0)
-        this.runs++
-      }
-      else {
-        // advance by the number of designated bases
-        this.moveBaserunner(0, 0 + numBases)
-      }
-    }
+  }
+
+  /**
+    Places a new batter on base 0; that is, at bat.
+    Also resets balls/strikes.
+  */
+  newBatter(batter) {
+    this.setBaserunner(0, batter)
+    this.balls = 0
+    this.strikes = 0
   }
 
 
@@ -163,12 +158,31 @@ export default class HalfInning {
   */
   onEvent(ev) {
     if (ev instanceof Pitch) {
+      // call some function with the Event
+      // we will do minimal work in this function and instead farm it out
+      // to other funtions
       switch (ev.outcome) {
-        case "single":
-          this.single(ev)
+        case "ball":
+          // TODO
+          this.ball(ev)
+          break
+        case "strike":
+          this.strike(ev)
           break
         case "walk":
           this.walk(ev)
+          break
+        case "single":
+          this.hit(ev, 1)
+          break
+        case "double":
+          this.hit(ev, 2)
+          break
+        case "triple":
+          this.hit(ev, 3)
+          break
+        case "homer":
+          this.hit(ev, 4)
           break
         default:
           console.log("not handling", ev.outcome)
@@ -178,10 +192,20 @@ export default class HalfInning {
   }
 
   walk(pitch) {
-
+    // assume that the batter-runner is on base 0
+    // the batter-runner goes to first and everyone else is forced up
+    // (`advanceBaserunner` takes care of forcing)
+    this.advanceBaserunner(0, 1)
   }
 
-  single(pitch) {
-
+  /**
+    Generic method for a base hit.
+  */
+  hit(pitch, numBases) {
+    // TODO:advanced not all runners will advance the same # of bases;
+    // really fast runners on base may get an extra +1 on a single or double
+    // (or a triple, but anyone on base scores on a triple anyway)
+    this.advanceAllRunners(numBases)
+    this.hits++
   }
 }
