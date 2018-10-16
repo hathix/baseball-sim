@@ -21,7 +21,7 @@ export default class Pitch extends Event {
   }
 
   get description() {
-    return "Pitch thrown!"
+    return `${this.pitchType}, ${this.speed}mph -- ${this.outcome}`
   }
 }
 
