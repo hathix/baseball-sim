@@ -179,6 +179,7 @@ export default class HalfInning {
           break
         case "strikeSwinging":
         case "strikeLooking":
+        // TODO handle foul bunt, which is treated just like a strike
           this.strike(ev)
           break
         case "foul":
@@ -199,10 +200,17 @@ export default class HalfInning {
         case "homer":
           this.hit(ev, 4)
           break
+        case "error":
+          this.error(ev)
+          break
         default:
           console.log("not handling", ev.outcome)
           break
       }
+    }
+    else {
+      // TODO handle this
+      // could be a pickoff, passed ball, steal, defensive indifference
     }
   }
 
@@ -222,6 +230,12 @@ export default class HalfInning {
     // (or a triple, but anyone on base scores on a triple anyway)
     this.advanceAllRunners(numBases)
     this.hits++
+  }
+
+  error(pitch, numBases) {
+    // for now we assume an error is just like a single
+    this.advanceAllRunners(1)
+    this.errors++
   }
 
   strike(pitch) {
