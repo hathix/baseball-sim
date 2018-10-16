@@ -149,6 +149,17 @@ export default class HalfInning {
     this.strikes = 0
   }
 
+  /**
+    The current batter is out.
+  */
+  batterOut(pitch) {
+    this.outs++
+    // no need to reset balls and strikes, since newBatter() will do that
+
+    if (this.outs >= 3) {
+      // TODO end the half inning
+    }
+  }
 
   // Every possible atomic pitch result can be called here - from ball to homer.
   // that will update the current half-inning state
@@ -166,8 +177,12 @@ export default class HalfInning {
           // TODO
           this.ball(ev)
           break
-        case "strike":
+        case "strikeSwinging":
+        case "strikeLooking":
           this.strike(ev)
+          break
+        case "foul":
+          this.foul(ev)
           break
         case "walk":
           this.walk(ev)
@@ -207,5 +222,27 @@ export default class HalfInning {
     // (or a triple, but anyone on base scores on a triple anyway)
     this.advanceAllRunners(numBases)
     this.hits++
+  }
+
+  strike(pitch) {
+    this.strikes++
+    if (this.strikes >= 3) {
+      // out!
+      this.batterOut(pitch)
+    }
+  }
+
+  foul(pitch) {
+    // fouls only count if you have 0 or 1 strikes
+    if (this.strikes < 2) {
+      this.strikes++
+    }
+  }
+
+  ball(pitch) {
+    this.balls++
+    if (this.balls >= 4) {
+      this.walk(pitch)
+    }
   }
 }
