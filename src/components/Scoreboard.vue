@@ -4,38 +4,38 @@
     <h2>SCOREBOARD</h2>
 
     <div>
-      <span class="light ball-light" :class="{ on: balls > 0}"></span>
-      <span class="light ball-light" :class="{ on: balls > 1}"></span>
-      <span class="light ball-light" :class="{ on: balls > 2}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 0}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 1}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 2}"></span>
 
       <br>
 
-      <span class="light strike-light" :class="{ on: strikes > 0}"></span>
-      <span class="light strike-light" :class="{ on: strikes > 1}"></span>
+      <span class="light strike-light" :class="{ on: hi.strikes > 0}"></span>
+      <span class="light strike-light" :class="{ on: hi.strikes > 1}"></span>
 
       <br>
 
-      <span class="light out-light" :class="{ on: inning.outs > 0}"></span>
-      <span class="light out-light" :class="{ on: inning.outs > 1}"></span>
+      <span class="light out-light" :class="{ on: hi.outs > 0}"></span>
+      <span class="light out-light" :class="{ on: hi.outs > 1}"></span>
 
     </div>
 
     <br>
 
     <div class="bases">
-      <div class="base base-3rd" :class="{ on: inning.bases[2] }"></div>
-      <div class="base base-2nd" :class="{ on: inning.bases[1] }"></div>
-      <div class="base base-1st" :class="{ on: inning.bases[0] }"></div>
+      <div class="base base-3rd" :class="{ on: hi.isRunnerOn(3) }"></div>
+      <div class="base base-2nd" :class="{ on: hi.isRunnerOn(2) }"></div>
+      <div class="base base-1st" :class="{ on: hi.isRunnerOn(1) }"></div>
     </div>
 
 
     <!-- <p>Count: {{ balls }}-{{ strikes}}</p> -->
 
-    <p>Runs: {{ inning.runs }}</p>
+    <p>Runs: {{ hi.runs }}</p>
 
-    <!-- <p>Outs: {{ inning.outs }}</p> -->
+    <!-- <p>Outs: {{ hi.outs }}</p> -->
 
-    <!-- <p>Bases: {{ inning.bases }}</p> -->
+    <!-- <p>Bases: {{ hi.bases }}</p> -->
   </div>
 </template>
 
@@ -45,46 +45,14 @@
 // import Player from "@/models/Player";
 // import calculations from "@/models/Calculations";
 // import utils from "@/lib/utils";
-import Inning from "@/models/Inning";
-
-// // load data
-// import rawPlayers from "@/data/players.json";
-//
-// // convert to Player objects
-// let players = rawPlayers.map(raw => new Player(raw));
+import HalfInning from "@/models/HalfInning";
 
 export default {
   name: "scoreboard",
 
   props: {
-    balls: Number,
-    strikes: Number,
-    inning: Inning
+    hi: HalfInning
   }
-
-  // data: function(){
-  //   return {
-  //     players: players,
-  //
-  //     pitcher: null,
-  //     batter: null
-  //   }
-  // },
-  //
-  // methods: {
-  //   setPitcher(player){
-  //     console.log("SET PITCHER");
-  //     this.pitcher = player;
-  //   },
-  //
-  //   setBatter(player) {
-  //     this.batter = player;
-  //   }
-  // },
-  //
-  // components: {
-  //   // HelloWorld
-  // }
 };
 </script>
 

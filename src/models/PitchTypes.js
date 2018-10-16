@@ -11,6 +11,6 @@ export default {
   ERROR: "error",
   SAC_FLY: "sacFly",
   FLYOUT: "flyout",
-  GROUNDOUT: "groundout"
-  LINEOUT: "lineout",
+  GROUNDOUT: "groundout",
+  LINEOUT: "lineout"
 }
