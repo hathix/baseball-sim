@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Event from "@/models/Event";
 import Pitch from "@/models/Pitch";
+import PitchTypes from "@/models/PitchTypes"
 
 /**
   Stores state for a half-inning.
@@ -37,6 +38,14 @@ export default class HalfInning {
     this.pitcher = {
       name: "Roy"
     }
+  }
+
+  isRunnerOn(baseNumber){
+    return this.baserunners[baseNumber] !== null
+  }
+
+  toString() {
+    return `Top 1st, ${this.balls}-${this.strikes}, ${this.outs} out, runners on ${this.isRunnerOn(1)} ${this.isRunnerOn(2)} ${this.isRunnerOn(3)}, ${this.runs} | ${this.hits} | ${this.errors}`
   }
 
   /**
@@ -173,41 +182,41 @@ export default class HalfInning {
       // we will do minimal work in this function and instead farm it out
       // to other funtions
       switch (ev.outcome) {
-        case "ball":
+        case PitchTypes.BALL:
           this.ball(ev)
           break
-        case "strikeSwinging":
-        case "strikeLooking":
+        case PitchTypes.STRIKE_SWINGING:
+        case PitchTypes.STRIKE_LOOKING:
         // TODO handle foul bunt, which is treated just like a strike
           this.strike(ev)
           break
-        case "foul":
+        case PitchTypes.FOUL:
           this.foul(ev)
           break
-        case "walk":
+        case PitchTypes.WALK:
           this.walk(ev)
           break
-        case "single":
+        case PitchTypes.SINGLE:
           this.hit(ev, 1)
           break
-        case "double":
+        case PitchTypes.DOUBLE:
           this.hit(ev, 2)
           break
-        case "triple":
+        case PitchTypes.TRIPLE:
           this.hit(ev, 3)
           break
-        case "homer":
+        case PitchTypes.HOMER:
           this.hit(ev, 4)
           break
-        case "error":
+        case PitchTypes.ERROR:
           this.error(ev)
           break
-        case "sacFly":
+        case PitchTypes.SAC_FLY:
           this.sacFly(ev)
           break
-        case "flyout":
-        case "groundout":
-        case "lineout":
+        case PitchTypes.FLYOUT:
+        case PitchTypes.GROUNDOUT:
+        case PitchTypes.LINEOUT:
           this.batterOut()
           break
         default:

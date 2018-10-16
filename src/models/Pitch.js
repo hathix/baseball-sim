@@ -26,6 +26,10 @@ export default class Pitch extends Event {
   get description() {
     return `${this.pitchType}, ${this.speed}mph -- ${this.outcome}`
   }
+
+  toString() {
+    return this.description
+  }
 }
 
 // import { Enum } from "enumify";
