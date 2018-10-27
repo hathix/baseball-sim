@@ -101,12 +101,18 @@ export default class HalfInning {
       and the others stay unless forced)
   */
   advanceBaserunner(from, numBases) {
-    if (this.baserunners[from] === null) {
+    if (from > 3 || this.baserunners[from] === null) {
       // nobody to move
       return
     }
 
-    let to = from + numBases
+    let to = Math.min(from + numBases, 4) // never let anyone wrap around home
+
+    // if (from === 3 && to > 3) {
+    //   // TODO fragile
+    //   // guy on 3rd going home
+    //   // no forcing needed now! to avoid infinite recursoi
+    // }
 
     // if there's anyone between `from` (exclusive) and `to` (inclusive),
     // force them up
@@ -118,7 +124,7 @@ export default class HalfInning {
     // and he'll force up anyone after
     for (let i = from + 1; i <= to; i++) {
       if (this.baserunners[i] !== null) {
-        // force this man up until he's just past `to`
+        // force this man up until he's to the base just past `to`
         // moveBaserunner is an alias for advanceBaserunner so it'll call
         // this recursively
         this.moveBaserunner(i, to + 1)
