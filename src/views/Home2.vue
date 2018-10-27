@@ -8,6 +8,8 @@
     <button @click="hi.hit(null, 1)">1B</button>
     <button @click="hi.hit(null, 2)">2B</button>
     <button @click="hi.hit(null, 3)">3B</button>
+    <button @click="hi.hit(null, 4)">HR</button>
+    <button @click="hi.onEvent(new Pitch(null, null, 'fastball', 95, 'ball'))">Pitch...</button>
   </div>
 </template>
 
@@ -17,6 +19,7 @@ import HalfInning from "@/models/HalfInning"
 import Scoreboard from "@/components/Scoreboard"
 import Team from "@/models/Team"
 import Player from "@/models/Player"
+import Pitch from "@/models/Pitch"
 
 let demoTeam1 = new Team([
  new Player("Chase", 26, 1) ,
@@ -54,7 +57,8 @@ export default {
     return {
       hi: hi,
       battingTeam: demoTeam1,
-      pitchingTeam: demoTeam2
+      pitchingTeam: demoTeam2,
+      Pitch: Pitch
     };
   },
 

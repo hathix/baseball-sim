@@ -6,7 +6,7 @@
 import Event from "@/models/Event";
 
 export default class Pitch extends Event {
-  constructor({ pitcher /* Player */, batter /* Player */, pitchType, speed, outcome, params }) {
+  constructor(pitcher /* Player */, batter /* Player */, pitchType, speed, outcome, params) {
     super()
 
     this.pitcher = pitcher
