@@ -23,11 +23,18 @@ export default class Pitch extends Event {
       // like how a fielder's choice might get someone at any base out
       // or a GIDP could get men at 2nd+3rd or 1st+2nd out
 
+    // To be filled in by the HalfInning
+    this.gameState = {
+      outs: 0,
+      balls: 0,
+      strikes: 0
+    }
+
     this.id = _.uniqueId('pitch')
   }
 
   get description() {
-    return `${this.pitchType}, ${this.speed}mph -- ${this.outcome}`
+    return `${this.batter.name} got a ${this.outcome}. ${this.gameState.balls}-${this.gameState.strikes}, ${this.gameState.outs} out. (${this.speed}mph ${this.pitchType})`
   }
 
   toString() {

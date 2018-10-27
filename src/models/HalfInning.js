@@ -213,7 +213,7 @@ export default class HalfInning {
   */
   onEvent(ev) {
     if (ev instanceof Pitch) {
-      this.pitches.push(ev)
+
       // call some function with the Event
       // we will do minimal work in this function and instead farm it out
       // to other functions
@@ -260,6 +260,15 @@ export default class HalfInning {
           console.log("not handling", ev.outcome)
           break
       }
+
+      // update pitch with new state of the world
+      // TODO store a report of what happened, like who scored or if he struck out
+      ev.gameState = {
+        balls: this.balls,
+        strikes: this.strikes,
+        outs: this.outs
+      }
+      this.pitches.push(ev)
     }
     else {
       // TODO handle this

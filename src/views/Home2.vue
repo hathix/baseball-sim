@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Scoreboard :hi="hi"></Scoreboard>
+    <div style="float:left; width: 500px">
+      <Scoreboard :hi="hi"></Scoreboard>
+    </div>
 
     <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
     <button @click="hi.ball()">Ball</button>

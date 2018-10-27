@@ -36,11 +36,11 @@
     <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
 
     <h3>Pitches</h3>
-    <ul>
-      <li v-for="pitch in hi.pitches">
-        {{ pitch }}
+    <ol reversed>
+      <li v-for="pitch in hi.pitches.slice().reverse()">
+        {{ pitch.toString() }}
       </li>
-    </ul>
+    </ol>
   </div>
 </template>
 
