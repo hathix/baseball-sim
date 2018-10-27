@@ -31,6 +31,8 @@
     <p>Runs: {{ hi.runs }}</p>
     <p>Hits: {{ hi.hits }}</p>
     <p>Errors: {{ hi.errors }}</p>
+
+    <p>At bat: {{ hi.batter }}</p>
   </div>
 </template>
 

@@ -1,6 +1,8 @@
 <template>
   <div>
     <Scoreboard :hi="hi"></Scoreboard>
+
+    <button @click="hi.ball()">Ball</button>
   </div>
 </template>
 
@@ -10,6 +12,9 @@ import HalfInning from "@/models/HalfInning"
 import Scoreboard from "@/components/Scoreboard"
 
 let hi = new HalfInning()
+
+let batter = { name: "Chase" }
+hi.newBatter(batter)
 
 export default {
   name: "home",

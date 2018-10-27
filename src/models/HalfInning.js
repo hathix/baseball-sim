@@ -9,7 +9,11 @@ import PitchTypes from "@/models/PitchTypes"
   store past ones in memory so as to keep a log of the whole game.
 */
 export default class HalfInning {
-  constructor() {
+  /**
+  Params:
+    battingTeam, pitchingTeam {Team}
+  */
+  constructor(battingTeam, pitchingTeam) {
 
     // all the temporary state for a half-inning lives here
     // a new halfinning class is created for each half-inning
@@ -32,12 +36,16 @@ export default class HalfInning {
     // (baserunners[0] is home, representing the batter-runner)
     this.baserunners = [null, null, null, null]
 
-    this.batter = {
-      name: "Chase"
-    }
-    this.pitcher = {
-      name: "Roy"
-    }
+    this.pitcher = null
+
+    // the teams from which to source batters
+    this.battingTeam = battingTeam
+    this.pitchingTeam = pitchingTeam
+  }
+
+  get batter() {
+    // the batter-runner is stored in base 0
+    return this.baserunners[0]
   }
 
   isRunnerOn(baseNumber){
