@@ -28,14 +28,9 @@
       <div class="base base-1st" :class="{ on: hi.isRunnerOn(1) }"></div>
     </div>
 
-
-    <!-- <p>Count: {{ balls }}-{{ strikes}}</p> -->
-
     <p>Runs: {{ hi.runs }}</p>
-
-    <!-- <p>Outs: {{ hi.outs }}</p> -->
-
-    <!-- <p>Bases: {{ hi.bases }}</p> -->
+    <p>Hits: {{ hi.hits }}</p>
+    <p>Errors: {{ hi.errors }}</p>
   </div>
 </template>
 
