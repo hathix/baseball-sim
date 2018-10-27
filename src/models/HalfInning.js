@@ -142,6 +142,12 @@ export default class HalfInning {
       // scores a run
       this.runs++
     }
+
+    if (this.baserunners[0] === null) {
+      // now there's nobody batting, because they advanced!
+      // get the next batter in here
+      this.nextBatter()
+    }
   }
 
   /**
@@ -157,7 +163,7 @@ export default class HalfInning {
     // so we'll advance all the runners simultaneously. The best way to
     // simulate that is to move the man on 3rd, then on 2nd, then on 1st, then
     // the batter-runner
-    for (let i = 3; i <= 0; i--) {
+    for (let i = 3; i >= 0; i--) {
       this.advanceBaserunner(i, numBases)
     }
   }
@@ -173,14 +179,27 @@ export default class HalfInning {
   }
 
   /**
+    Use this when the last batter leaves base (either out or gets on base.)
+    Sources the next batter from the batting team
+  */
+  nextBatter() {
+    this.newBatter(this.battingTeam.nextBatter())
+  }
+
+  /**
     The current batter is out.
   */
   batterOut(pitch) {
+    // get them out of home)
     this.outs++
     // no need to reset balls and strikes, since newBatter() will do that
 
     if (this.outs >= 3) {
       // TODO end the half inning
+    }
+    else {
+      // next batter is up
+      this.nextBatter()
     }
   }
 

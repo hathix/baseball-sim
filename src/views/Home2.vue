@@ -2,8 +2,12 @@
   <div>
     <Scoreboard :hi="hi"></Scoreboard>
 
-    <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button>
+    <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
     <button @click="hi.ball()">Ball</button>
+    <button @click="hi.strike()">Strike</button>
+    <button @click="hi.hit(null, 1)">1B</button>
+    <button @click="hi.hit(null, 2)">2B</button>
+    <button @click="hi.hit(null, 3)">3B</button>
   </div>
 </template>
 
