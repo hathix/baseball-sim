@@ -9,7 +9,7 @@
     <button @click="hi.hit(null, 2)">2B</button>
     <button @click="hi.hit(null, 3)">3B</button>
     <button @click="hi.hit(null, 4)">HR</button>
-    <button @click="hi.onEvent(new Pitch(null, null, 'fastball', 95, 'ball'))">Pitch...</button>
+    <button @click="pitch()">Pitch!</button>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ import Scoreboard from "@/components/Scoreboard"
 import Team from "@/models/Team"
 import Player from "@/models/Player"
 import Pitch from "@/models/Pitch"
+import PitchTypes from "@/models/PitchTypes"
 
 let demoTeam1 = new Team([
  new Player("Chase", 26, 1) ,
@@ -57,8 +58,7 @@ export default {
     return {
       hi: hi,
       battingTeam: demoTeam1,
-      pitchingTeam: demoTeam2,
-      Pitch: Pitch
+      pitchingTeam: demoTeam2
     };
   },
 
@@ -71,6 +71,9 @@ export default {
     // setBatter(player) {
     //   this.batter = player;
     // }
+    pitch() {
+      hi.onEvent(new Pitch(demoTeam1.currentBatter, null, 'fastball', 95, PitchTypes.FOUL))
+    }
   },
 
   components: {

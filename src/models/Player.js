@@ -11,7 +11,11 @@ export default class Player {
     this.id = id
   }
 
-  get title() {
+  get description() {
     return this.name + " #" + this.number
+  }
+
+  toString() {
+    return this.description
   }
 }

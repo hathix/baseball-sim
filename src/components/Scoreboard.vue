@@ -32,8 +32,8 @@
     <p>Hits: {{ hi.hits }}</p>
     <p>Errors: {{ hi.errors }}</p>
 
-    <p>At bat: {{ hi.batter }}</p>
-    <p>On deck: {{ hi.battingTeam.onDeck }}</p>
+    <p>At bat: {{ hi.batter.toString() }}</p>
+    <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
   </div>
 </template>
 
