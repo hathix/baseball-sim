@@ -21,6 +21,7 @@ import Team from "@/models/Team"
 import Player from "@/models/Player"
 import Pitch from "@/models/Pitch"
 import PitchTypes from "@/models/PitchTypes"
+import ProbabilityVector from "@/lib/ProbabilityVector"
 
 let demoTeam1 = new Team([
  new Player("Chase", 26, 1) ,
@@ -72,7 +73,24 @@ export default {
     //   this.batter = player;
     // }
     pitch() {
-      hi.onEvent(new Pitch(demoTeam1.currentBatter, null, 'fastball', 95, PitchTypes.FOUL))
+      let pVector = new ProbabilityVector({
+        [PitchTypes.BALL]: 0.35,
+        [PitchTypes.STRIKE_SWINGING]: 0.185,
+        [PitchTypes.STRIKE_LOOKING]: 0.07,
+        [PitchTypes.FOUL]: 0.20,
+        [PitchTypes.FLYOUT]: 0.03, // TODO a flyout if there is a man on 3rd, 0/1 outs is a SacFly. this should be handled in this function, not the HalfInning, because the pitchType must reflect the real output. instead we should make a probability vector that encodes Fly BALL, not Fly OUT. Fly OUT becomes either Fly OUT or Sac Fly.
+        [PitchTypes.GROUNDOUT]: 0.05, // TODO may become FC or GIDP
+        [PitchTypes.LINEOUT]: 0.015,
+        [PitchTypes.POPOUT]: 0.015,
+        [PitchTypes.SINGLE]: 0.04,
+        [PitchTypes.DOUBLE]: 0.02,
+        [PitchTypes.TRIPLE]: 0.005,
+        [PitchTypes.HOMER]: 0.015,
+        [PitchTypes.ERROR]: 0.005
+      })
+      let outcome = pVector.sample()
+
+      hi.onEvent(new Pitch(demoTeam2.currentPitcher, demoTeam1.currentBatter, 'fastball', 95, outcome))
     }
   },
 

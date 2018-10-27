@@ -3,7 +3,8 @@
   etc.)
 */
 
-import Event from "@/models/Event";
+import Event from "@/models/Event"
+import lodash from "lodash"
 
 export default class Pitch extends Event {
   constructor(pitcher /* Player */, batter /* Player */, pitchType, speed, outcome, params) {
@@ -21,6 +22,8 @@ export default class Pitch extends Event {
     this.params = params // depends on the pitch. some might have special parameters
       // like how a fielder's choice might get someone at any base out
       // or a GIDP could get men at 2nd+3rd or 1st+2nd out
+
+    this.id = _.uniqueId('pitch')
   }
 
   get description() {

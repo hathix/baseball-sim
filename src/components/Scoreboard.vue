@@ -34,6 +34,13 @@
 
     <p>At bat: {{ hi.batter.toString() }}</p>
     <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
+
+    <h3>Pitches</h3>
+    <ul>
+      <li v-for="pitch in hi.pitches">
+        {{ pitch }}
+      </li>
+    </ul>
   </div>
 </template>
 

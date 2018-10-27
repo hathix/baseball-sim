@@ -41,6 +41,8 @@ export default class HalfInning {
     // the teams from which to source batters
     this.battingTeam = battingTeam
     this.pitchingTeam = pitchingTeam
+
+    this.pitches = []
   }
 
   get batter() {
@@ -211,9 +213,10 @@ export default class HalfInning {
   */
   onEvent(ev) {
     if (ev instanceof Pitch) {
+      this.pitches.push(ev)
       // call some function with the Event
       // we will do minimal work in this function and instead farm it out
-      // to other funtions
+      // to other functions
       switch (ev.outcome) {
         case PitchTypes.BALL:
           this.ball(ev)
@@ -250,6 +253,7 @@ export default class HalfInning {
         case PitchTypes.FLYOUT:
         case PitchTypes.GROUNDOUT:
         case PitchTypes.LINEOUT:
+        case PitchTypes.POPOUT:
           this.batterOut()
           break
         default:

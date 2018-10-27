@@ -7,8 +7,12 @@
 **/
 
 export default class ProbabilityVector {
-  constructor(obj) {
-    this.data = obj;
+  /**
+    Pass something like
+      {"strike": 0.6, "ball": 0.4 }
+  */
+  constructor(probabilities) {
+    this.data = probabilities;
   }
   //
   // /**

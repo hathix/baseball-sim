@@ -12,5 +12,6 @@ export default {
   SAC_FLY: "sacFly",
   FLYOUT: "flyout",
   GROUNDOUT: "groundout",
-  LINEOUT: "lineout"
+  LINEOUT: "lineout",
+  POPOUT: "popout"
 }
