@@ -22,8 +22,7 @@ export default class Team {
   }
 
   get currentBatter() {
-    let currentBatterId = this.battingOrder[this.currentBatterIndex]
-    return this.getBatterById(currentBatterId)
+    return this.getBatterFromOrder(this.currentBatterIndex)
   }
 
   get atBat() {
@@ -32,12 +31,19 @@ export default class Team {
   }
 
   get onDeck() {
-    let nextBatterId = (this.currentBatterIndex + 1) % 9
-    return this.getBatterById(nextBatterId)
+    let nextBatterIndex = (this.currentBatterIndex + 1) % 9
+    return this.getBatterFromOrder(nextBatterIndex)
   }
 
   getBatterById(id) {
     return _.find(this.players, (p) => p.id === id)
+  }
+
+  /**
+    Gets the batter at the specified batting order index.
+  */
+  getBatterFromOrder(index) {
+    return this.getBatterById(this.battingOrder[index])
   }
 
   /**

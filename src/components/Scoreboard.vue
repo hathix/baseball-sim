@@ -33,6 +33,7 @@
     <p>Errors: {{ hi.errors }}</p>
 
     <p>At bat: {{ hi.batter }}</p>
+    <p>On deck: {{ hi.battingTeam.onDeck }}</p>
   </div>
 </template>
 
