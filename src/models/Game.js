@@ -16,7 +16,7 @@ import ProbabilityVector from "@/lib/ProbabilityVector"
 export default class Game {
   constructor() {
 
-    let demoTeam1 = new Team([
+    let demoTeam1 = new Team("PHI", [
      new Player("Chase", 26, 1) ,
      new Player("Ryan", 5, 2) ,
      new Player("Jimmy", 11, 3) ,
@@ -28,7 +28,7 @@ export default class Game {
      new Player("Roy", 34, 9) ,
     ],[1,2,3,4,5,6,7,8,9])
 
-    let demoTeam2 = new Team([
+    let demoTeam2 = new Team("PIT", [
      new Player("Chase", 26, 1) ,
      new Player("Ryan", 5, 2) ,
      new Player("Jimmy", 11, 3) ,
@@ -86,6 +86,20 @@ export default class Game {
   }
 
   /**
+    A list of just the top half-innings.
+  */
+  get topHalfInnings() {
+    return _.filter(this.halfInnings, (hi, i) => i % 2 === 0)
+  }
+
+  /**
+    A list of just the bottom half-innings.
+  */
+  get bottomHalfInnings() {
+    return _.filter(this.halfInnings, (hi, i) => i % 2 === 1)
+  }
+
+  /**
     Returns an array with scores from current and previous innings.
     Takes the form of [{top, bottom}, {top, bottom}, ...]
   */
@@ -96,6 +110,26 @@ export default class Game {
     let inningScoreArray = _.chunk(rawScoreArray, 2).map(([top, bottom]) => ({ top, bottom }))
 
     return inningScoreArray
+  }
+
+  /**
+    Calculates the total runs, hits, and errors for each team.
+  */
+  get totalScores() {
+    return {
+      home: {
+        runs: _.sum(this.bottomHalfInnings.map(hi => hi.runs)),
+        hits: _.sum(this.bottomHalfInnings.map(hi => hi.hits)),
+        // errors charged to the home team happened when the away team was batting
+        errors: _.sum(this.topHalfInnings.map(hi => hi.errors))
+      },
+      away: {
+        runs: _.sum(this.topHalfInnings.map(hi => hi.runs)),
+        hits: _.sum(this.topHalfInnings.map(hi => hi.hits)),
+        // errors charged to the away team happened when the home team was batting
+        errors: _.sum(this.bottomHalfInnings.map(hi => hi.errors))
+      }
+    }
   }
 
   start() {

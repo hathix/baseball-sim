@@ -15,6 +15,7 @@
     <button @click="pitch(PT.GROUNDOUT)">Groundout</button>
     <button @click="pitch(PT.FLYOUT)">Flyout</button>
     <button @click="pitch(PT.LINEOUT)">Lineout</button>
+    <button @click="pitch(PT.ERROR)">Error</button>
     <br>
     <button @click="randomPitch()">Pitch!</button>
 

@@ -14,7 +14,9 @@ export default class Team {
       players {Player[]} -- the players on the team
       battingOrder {int[]} -- the IDs of the players who are batting, in order 0-9
   */
-  constructor(players, battingOrder) {
+  constructor(name, players, battingOrder) {
+    this.name = name
+    
     this.players = players
 
     this.battingOrder = battingOrder

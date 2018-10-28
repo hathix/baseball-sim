@@ -66,7 +66,7 @@ export default {
   computed: {
     hi() {
       // `hi` is shorthand for the current half inning
-      return game.currentHalfInning
+      return this.game.currentHalfInning
     }
   },
 
