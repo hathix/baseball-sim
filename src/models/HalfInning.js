@@ -419,8 +419,8 @@ export default class HalfInning {
       }
     }
     else {
-      // tried bunting with 2 outs? that's just a strike, man
-      this.strike()
+      // tried bunting with 2 outs? that's just an out, man
+      this.groundout(pitch)
     }
   }
 }

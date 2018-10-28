@@ -18,8 +18,9 @@
     <button @click="pitch(PT.ERROR)">Error</button>
 
     <br>
-    <button @click="randomPitch()">Pitch!</button>
-    <button @click="takePitch()">Don't Swing</button>
+    <button @click="randomPitch()">Normal</button>
+    <button @click="swingForTheFences()">Swing</button>
+    <button @click="takePitch()">Take</button>
     <button @click="pitch(PT.BUNT)">Bunt</button>
 
 
@@ -81,9 +82,35 @@ export default {
       this.pitch(outcome)
     },
 
+    swingForTheFences() {
+      let pVector = new ProbabilityVector({
+        // this will be normalized to 1 so don't worry if it doesn't add up
+        // TODO adjust probabilities for impact out of the zone from  https://fivethirtyeight.com/features/pitchers-wont-throw-strikes-so-batters-are-getting-better-at-hitting-bad-pitches/
+        // [PitchTypes.BALL]: 0.35,
+        [PitchTypes.STRIKE_SWINGING]: 0.285,
+        // [PitchTypes.STRIKE_LOOKING]: 0.07,
+        [PitchTypes.FOUL]: 0.25,
+        [PitchTypes.FLYOUT]: 0.03,
+        [PitchTypes.GROUNDOUT]: 0.05,
+        [PitchTypes.LINEOUT]: 0.015,
+        [PitchTypes.POPOUT]: 0.015,
+        [PitchTypes.SINGLE]: 0.04,
+        [PitchTypes.DOUBLE]: 0.02,
+        [PitchTypes.TRIPLE]: 0.005,
+        [PitchTypes.HOMER]: 0.015,
+        [PitchTypes.ERROR]: 0.005
+      })
+      let outcome = pVector.sample()
+      this.pitch(outcome)
+    },
+
     takePitch() {
       // assumes you just take a ball; don't swing
       // percents from https://fivethirtyeight.com/features/pitchers-wont-throw-strikes-so-batters-are-getting-better-at-hitting-bad-pitches/
+      // TODO this amount is pretty broken b/c just taking pitches will get you
+      // a walk 60% of the time. in reality the pitcher would adjust and
+      // throw you guaranteed strikes, but for now we don't have that.
+      // so this number will need to be adjusted
       let pVector = new ProbabilityVector({
         [PitchTypes.BALL]: 0.545,
         [PitchTypes.STRIKE_LOOKING]: 0.445,
