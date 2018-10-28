@@ -362,8 +362,8 @@ export default class HalfInning {
       // TODO this should only happen if you have a fast baserunner
       // advanceRunner checks if there's anyone on 2nd and 3rd and fails silently
       // otherwise, which works in our favor
-      this.advanceRunner(2, 1)
-      this.advanceRunner(3, 1)
+      this.advanceBaserunner(3, 1)
+      this.advanceBaserunner(2, 1)
     }
   }
 

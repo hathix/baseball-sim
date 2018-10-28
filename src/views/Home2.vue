@@ -6,7 +6,7 @@
 
     <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
     <button @click="pitch(PT.BALL)">Ball</button>
-    <button @click="pitch(PT.STRIKE)">Strike</button>
+    <button @click="pitch(PT.STRIKE_SWINGING)">Strike</button>
     <button @click="pitch(PT.SINGLE)">1B</button>
     <button @click="pitch(PT.DOUBLE)">2B</button>
     <button @click="pitch(PT.TRIPLE)">3B</button>
