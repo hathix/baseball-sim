@@ -275,7 +275,10 @@ export default class HalfInning {
           this.batterOut()
           break
         case PitchTypes.GROUNDOUT:
-          this.groundout()
+          this.groundout(ev)
+          break
+        case PitchTypes.BUNT:
+          this.bunt(ev)
           break
         default:
           console.log("not handling", ev.outcome)
@@ -391,6 +394,17 @@ export default class HalfInning {
       // otherwise, which works in our favor
       this.advanceBaserunner(3, 1)
       this.advanceBaserunner(2, 1)
+    }
+  }
+
+  bunt(pitch) {
+    // TODO we assume it succeeds; add a potential failure rate
+    if (this.outs < 2) {
+      // batter is out, but anyone on 1st/2nd advances
+      // TODO if someone is super fast, they can advance when on 3rd (going home!)
+      this.batterOut()
+      this.advanceBaserunner(2, 1)
+      this.advanceBaserunner(1, 1)
     }
   }
 }

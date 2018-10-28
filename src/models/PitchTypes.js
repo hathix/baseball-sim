@@ -15,5 +15,6 @@ export default {
   FLYOUT: "flyout",
   GROUNDOUT: "groundout",
   LINEOUT: "lineout",
-  POPOUT: "popout"
+  POPOUT: "popout",
+  BUNT: "bunt"
 }

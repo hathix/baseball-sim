@@ -28,9 +28,9 @@ hi<template>
       <div class="base base-1st" :class="{ on: hi.isRunnerOn(1) }"></div>
     </div>
 
-    <p>Runs: {{ hi.runs }}</p>
+    <!-- <p>Runs: {{ hi.runs }}</p>
     <p>Hits: {{ hi.hits }}</p>
-    <p>Errors: {{ hi.errors }}</p>
+    <p>Errors: {{ hi.errors }}</p> -->
 
     <p>At bat: {{ hi.batter.toString() }}</p>
     <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
