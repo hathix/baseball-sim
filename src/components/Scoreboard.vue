@@ -54,7 +54,7 @@
 // import utils from "@/lib/utils";
 import HalfInning from "@/models/HalfInning";
 import Game from "@/models/Game"
-import ScoreTable from "@/models/ScoreTable"
+import ScoreTable from "@/components/ScoreTable"
 
 export default {
   name: "scoreboard",
