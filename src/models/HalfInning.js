@@ -382,5 +382,15 @@ export default class HalfInning {
     this.batterOut()
     // for now, assume the guy on 1st is out
     this.runnerOut(1)
+
+    // niche case: if we still have < 3 outs and someone is on 2nd or 3rd,
+    // he can advance
+    if (this.outs < 3) {
+      // TODO this should only happen if you have a fast baserunner
+      // advanceRunner checks if there's anyone on 2nd and 3rd and fails silently
+      // otherwise, which works in our favor
+      this.advanceBaserunner(3, 1)
+      this.advanceBaserunner(2, 1)
+    }
   }
 }
