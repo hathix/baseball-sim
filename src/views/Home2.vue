@@ -94,8 +94,12 @@ export default {
       let outcome = pVector.sample()
 
       if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
-        // turns into double play
+        // groundout turns into double play
         outcome = PitchTypes.DOUBLE_PLAY
+      }
+      if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
+        // flyout turns into sac fly
+        outcome = PitchTypes.SAC_FLY
       }
 
       hi.onEvent(new Pitch(demoTeam2.currentPitcher, demoTeam1.currentBatter, 'fastball', 95, outcome))

@@ -319,6 +319,7 @@ export default class HalfInning {
   sacFly(pitch) {
     // guy on 3rd scores, batter is out
     this.batterOut()
+    
     if (this.outs < 3) {
       this.advanceBaseRunner(3, 1)
     }
