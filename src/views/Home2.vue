@@ -93,6 +93,11 @@ export default {
       })
       let outcome = pVector.sample()
 
+      if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
+        // turns into double play
+        outcome = PitchTypes.DOUBLE_PLAY
+      }
+
       hi.onEvent(new Pitch(demoTeam2.currentPitcher, demoTeam1.currentBatter, 'fastball', 95, outcome))
     }
   },
