@@ -68,7 +68,7 @@ export default {
       // `hi` is shorthand for the current half inning
       return game.currentHalfInning
     }
-  }
+  },
 
   components: {
     ScoreTable
