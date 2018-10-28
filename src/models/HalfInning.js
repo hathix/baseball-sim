@@ -400,11 +400,27 @@ export default class HalfInning {
   bunt(pitch) {
     // TODO we assume it succeeds; add a potential failure rate
     if (this.outs < 2) {
-      // batter is out, but anyone on 1st/2nd advances
-      // TODO if someone is super fast, they can advance when on 3rd (going home!)
-      this.batterOut()
-      this.advanceBaserunner(2, 1)
-      this.advanceBaserunner(1, 1)
+      if (this.isRunnerOn(3) && this.isRunnerOn(2) && this.isRunnerOn(1)) {
+        // bases loaded; force in play
+        // catcher will probably step on plate and get free out
+        this.runnerOut(3)
+        this.advanceBaserunner(0, 1)
+      }
+      else {
+        // batter is out, but anyone on 1st/2nd advances
+        // TODO if someone is super fast, they can advance when on 3rd (going home!)
+        this.batterOut()
+        // man on 2nd won't advance if someone's on 3rd
+        if (!this.isRunnerOn(3)) {
+          this.advanceBaserunner(2, 1)
+        }
+        // man on 1st, if any, will def advance
+        this.advanceBaserunner(1, 1)
+      }
+    }
+    else {
+      // tried bunting with 2 outs? that's just a strike, man
+      this.strike()
     }
   }
 }

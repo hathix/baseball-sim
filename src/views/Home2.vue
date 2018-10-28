@@ -19,6 +19,7 @@
 
     <br>
     <button @click="randomPitch()">Pitch!</button>
+    <button @click="takePitch()">Don't Swing</button>
     <button @click="pitch(PT.BUNT)">Bunt</button>
 
 
@@ -66,8 +67,8 @@ export default {
         [PitchTypes.STRIKE_SWINGING]: 0.185,
         [PitchTypes.STRIKE_LOOKING]: 0.07,
         [PitchTypes.FOUL]: 0.20,
-        [PitchTypes.FLYOUT]: 0.03, // TODO a flyout if there is a man on 3rd, 0/1 outs is a SacFly. this should be handled in this function, not the HalfInning, because the pitchType must reflect the real output. instead we should make a probability vector that encodes Fly BALL, not Fly OUT. Fly OUT becomes either Fly OUT or Sac Fly.
-        [PitchTypes.GROUNDOUT]: 0.05, // TODO may become FC or GIDP
+        [PitchTypes.FLYOUT]: 0.03,
+        [PitchTypes.GROUNDOUT]: 0.05,
         [PitchTypes.LINEOUT]: 0.015,
         [PitchTypes.POPOUT]: 0.015,
         [PitchTypes.SINGLE]: 0.04,
@@ -75,6 +76,17 @@ export default {
         [PitchTypes.TRIPLE]: 0.005,
         [PitchTypes.HOMER]: 0.015,
         [PitchTypes.ERROR]: 0.005
+      })
+      let outcome = pVector.sample()
+      this.pitch(outcome)
+    },
+
+    takePitch() {
+      // assumes you just take a ball; don't swing
+      // percents from https://fivethirtyeight.com/features/pitchers-wont-throw-strikes-so-batters-are-getting-better-at-hitting-bad-pitches/
+      let pVector = new ProbabilityVector({
+        [PitchTypes.BALL]: 0.545,
+        [PitchTypes.STRIKE_LOOKING]: 0.445,
       })
       let outcome = pVector.sample()
       this.pitch(outcome)
