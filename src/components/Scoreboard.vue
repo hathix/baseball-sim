@@ -1,45 +1,45 @@
-<template>
+hi<template>
   <div>
 
     <h2>SCOREBOARD</h2>
 
     <div>
-      <span class="light ball-light" :class="{ on: game.currentHalfInning.balls > 0}"></span>
-      <span class="light ball-light" :class="{ on: game.currentHalfInning.balls > 1}"></span>
-      <span class="light ball-light" :class="{ on: game.currentHalfInning.balls > 2}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 0}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 1}"></span>
+      <span class="light ball-light" :class="{ on: hi.balls > 2}"></span>
 
       <br>
 
-      <span class="light strike-light" :class="{ on: game.currentHalfInning.strikes > 0}"></span>
-      <span class="light strike-light" :class="{ on: game.currentHalfInning.strikes > 1}"></span>
+      <span class="light strike-light" :class="{ on: hi.strikes > 0}"></span>
+      <span class="light strike-light" :class="{ on: hi.strikes > 1}"></span>
 
       <br>
 
-      <span class="light out-light" :class="{ on: game.currentHalfInning.outs > 0}"></span>
-      <span class="light out-light" :class="{ on: game.currentHalfInning.outs > 1}"></span>
+      <span class="light out-light" :class="{ on: hi.outs > 0}"></span>
+      <span class="light out-light" :class="{ on: hi.outs > 1}"></span>
 
     </div>
 
     <br>
 
     <div class="bases">
-      <div class="base base-3rd" :class="{ on: game.currentHalfInning.isRunnerOn(3) }"></div>
-      <div class="base base-2nd" :class="{ on: game.currentHalfInning.isRunnerOn(2) }"></div>
-      <div class="base base-1st" :class="{ on: game.currentHalfInning.isRunnerOn(1) }"></div>
+      <div class="base base-3rd" :class="{ on: hi.isRunnerOn(3) }"></div>
+      <div class="base base-2nd" :class="{ on: hi.isRunnerOn(2) }"></div>
+      <div class="base base-1st" :class="{ on: hi.isRunnerOn(1) }"></div>
     </div>
 
-    <p>Runs: {{ game.currentHalfInning.runs }}</p>
-    <p>Hits: {{ game.currentHalfInning.hits }}</p>
-    <p>Errors: {{ game.currentHalfInning.errors }}</p>
+    <p>Runs: {{ hi.runs }}</p>
+    <p>Hits: {{ hi.hits }}</p>
+    <p>Errors: {{ hi.errors }}</p>
 
-    <p>At bat: {{ game.currentHalfInning.batter.toString() }}</p>
-    <p>On deck: {{ game.currentHalfInning.battingTeam.onDeck.toString() }}</p>
+    <p>At bat: {{ hi.batter.toString() }}</p>
+    <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
 
     <ScoreTable :game="game"></ScoreTable>
 
     <h3>Pitches</h3>
     <ol reversed>
-      <li v-for="pitch in game.currentHalfInning.pitches.slice().reverse()">
+      <li v-for="pitch in hi.pitches.slice().reverse()">
         {{ pitch.toString() }}
       </li>
     </ol>
@@ -62,6 +62,13 @@ export default {
   props: {
     game: Game
   },
+
+  computed: {
+    hi() {
+      // `hi` is shorthand for the current half inning
+      return game.currentHalfInning
+    }
+  }
 
   components: {
     ScoreTable
