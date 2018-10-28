@@ -205,6 +205,18 @@ export default class HalfInning {
     }
   }
 
+  runnerOut(baseNumber) {
+    // clear the base
+    this.setBaserunner(baseNumber, null)
+
+    // TODO make a generic function that will handle when anyone at a certain base
+    // is out (including the batter). it should handle this.outs++ and stuff
+    this.outs++
+    if (this.outs >= 3) {
+      // TODO end the half inning
+    }
+  }
+
   // Every possible atomic pitch result can be called here - from ball to homer.
   // that will update the current half-inning state
 
@@ -249,6 +261,10 @@ export default class HalfInning {
           break
         case PitchTypes.SAC_FLY:
           this.sacFly(ev)
+          break
+        case PitchTypes.DOUBLE_PLAY:
+          // TODO handle the params: it depends who gets out
+          this.doublePlay(ev)
           break
         case PitchTypes.FLYOUT:
         case PitchTypes.GROUNDOUT:
@@ -328,5 +344,12 @@ export default class HalfInning {
     if (this.balls >= 4) {
       this.walk(pitch)
     }
+  }
+
+  doublePlay(pitch) {
+    // TODO get parameters on who got out
+    this.batterOut()
+    // for now, assume the guy on 1st is out
+    this.runnerOut(1)
   }
 }

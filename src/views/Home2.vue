@@ -11,6 +11,7 @@
     <button @click="hi.hit(null, 2)">2B</button>
     <button @click="hi.hit(null, 3)">3B</button>
     <button @click="hi.hit(null, 4)">HR</button>
+    <button @click="hi.doublePlay()">GIDP</button>
     <button @click="pitch()">Pitch!</button>
   </div>
 </template>

@@ -10,6 +10,7 @@ export default {
   HOMER: "homer",
   ERROR: "error",
   SAC_FLY: "sacFly",
+  DOUBLE_PLAY: "doublePlay",
   FLYOUT: "flyout",
   GROUNDOUT: "groundout",
   LINEOUT: "lineout",
