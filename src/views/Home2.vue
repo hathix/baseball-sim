@@ -5,14 +5,18 @@
     </div>
 
     <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
-    <button @click="hi.ball()">Ball</button>
-    <button @click="hi.strike()">Strike</button>
-    <button @click="hi.hit(null, 1)">1B</button>
-    <button @click="hi.hit(null, 2)">2B</button>
-    <button @click="hi.hit(null, 3)">3B</button>
-    <button @click="hi.hit(null, 4)">HR</button>
-    <button @click="hi.doublePlay()">GIDP</button>
-    <button @click="pitch()">Pitch!</button>
+    <button @click="pitch(PT.BALL)">Ball</button>
+    <button @click="pitch(PT.STRIKE)">Strike</button>
+    <button @click="pitch(PT.SINGLE)">1B</button>
+    <button @click="pitch(PT.DOUBLE)">2B</button>
+    <button @click="pitch(PT.TRIPLE)">3B</button>
+    <button @click="pitch(PT.HOMER)">HR</button>
+    <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
+    <button @click="pitch(PT.GROUNDOUT)">Groundout</button>
+    <button @click="pitch(PT.FLYOUT)">Flyout</button>
+    <button @click="pitch(PT.LINEOUT)">Lineout</button>
+    <br>
+    <button @click="randomPitch()">Pitch!</button>
   </div>
 </template>
 
@@ -62,7 +66,8 @@ export default {
     return {
       hi: hi,
       battingTeam: demoTeam1,
-      pitchingTeam: demoTeam2
+      pitchingTeam: demoTeam2,
+      PT: PitchTypes
     };
   },
 
@@ -75,7 +80,7 @@ export default {
     // setBatter(player) {
     //   this.batter = player;
     // }
-    pitch() {
+    randomPitch() {
       let pVector = new ProbabilityVector({
         [PitchTypes.BALL]: 0.35,
         [PitchTypes.STRIKE_SWINGING]: 0.185,
@@ -92,12 +97,16 @@ export default {
         [PitchTypes.ERROR]: 0.005
       })
       let outcome = pVector.sample()
+      this.pitch(outcome)
+    },
 
+    pitch(outcome) {
+      // force a particular outcome
       if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
         // groundout turns into double play
         outcome = PitchTypes.DOUBLE_PLAY
       }
-      if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
+      else if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
         // flyout turns into sac fly
         outcome = PitchTypes.SAC_FLY
       }
