@@ -18,17 +18,17 @@ export default {
 
     return {
       // not in play
-      [PitchOutcomes.Ball.name]: 0.38,
-      [PitchOutcomes.Strike.name]: 0.23,
-      [PitchOutcomes.Foul.name]: 0.14,
+      [PitchOutcomes.Ball.name]: 0.35,
+      [PitchOutcomes.Strike.name]: 0.25,
+      [PitchOutcomes.Foul.name]: 0.2,
 
       // in play
       // out
-      [PitchOutcomes.Groundout.name]: 0.09,
+      [PitchOutcomes.Groundout.name]: 0.05,
       [PitchOutcomes.Flyout.name]: 0.06,
 
       // no out
-      [PitchOutcomes.Single.name]: 0.05,
+      [PitchOutcomes.Single.name]: 0.04,
       [PitchOutcomes.Double.name]: 0.02,
       [PitchOutcomes.Triple.name]: 0.005,
       [PitchOutcomes.HomeRun.name]: 0.02,
