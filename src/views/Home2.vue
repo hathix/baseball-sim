@@ -106,7 +106,7 @@ export default {
         // groundout turns into double play
         outcome = PitchTypes.DOUBLE_PLAY
       }
-      else if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
+      if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
         // flyout turns into sac fly
         outcome = PitchTypes.SAC_FLY
       }

@@ -267,10 +267,12 @@ export default class HalfInning {
           this.doublePlay(ev)
           break
         case PitchTypes.FLYOUT:
-        case PitchTypes.GROUNDOUT:
         case PitchTypes.LINEOUT:
         case PitchTypes.POPOUT:
           this.batterOut()
+          break
+        case PitchTypes.GROUNDOUT:
+          this.groundout()
           break
         default:
           console.log("not handling", ev.outcome)
@@ -308,6 +310,9 @@ export default class HalfInning {
     // (or a triple, but anyone on base scores on a triple anyway)
     this.advanceAllRunners(numBases)
     this.hits++
+
+    // TODO have each of these event functions return a string with the outcome
+    // this can then be shown on the Home
   }
 
   error(pitch) {
@@ -344,6 +349,21 @@ export default class HalfInning {
     this.balls++
     if (this.balls >= 4) {
       this.walk(pitch)
+    }
+  }
+
+  groundout(pitch) {
+    // this is specifically NOT a double play
+    // but if someone is on 2nd/3rd, we can advance
+
+    this.batterOut()
+
+    if (this.outs < 3) {
+      // TODO this should only happen if you have a fast baserunner
+      // advanceRunner checks if there's anyone on 2nd and 3rd and fails silently
+      // otherwise, which works in our favor
+      this.advanceRunner(2, 1)
+      this.advanceRunner(3, 1)
     }
   }
 
