@@ -1,3 +1,4 @@
+// TODO rename to OutcomeType
 export default {
   BALL: "ball",
   STRIKE_SWINGING: "strikeSwinging",

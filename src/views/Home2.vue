@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="float:left; width: 500px">
-      <Scoreboard :hi="hi"></Scoreboard>
+      <Scoreboard :game="game"></Scoreboard>
     </div>
 
     <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
@@ -17,6 +17,8 @@
     <button @click="pitch(PT.LINEOUT)">Lineout</button>
     <br>
     <button @click="randomPitch()">Pitch!</button>
+
+
   </div>
 </template>
 
@@ -29,44 +31,19 @@ import Player from "@/models/Player"
 import Pitch from "@/models/Pitch"
 import PitchTypes from "@/models/PitchTypes"
 import ProbabilityVector from "@/lib/ProbabilityVector"
+import Game from "@/models/Game"
 
-let demoTeam1 = new Team([
- new Player("Chase", 26, 1) ,
- new Player("Ryan", 5, 2) ,
- new Player("Jimmy", 11, 3) ,
- new Player("Carlos", 40, 4) ,
- new Player("Shane", 3, 5) ,
- new Player("Freddy", 22, 6) ,
- new Player("Cliff", 33, 7) ,
- new Player("Cole", 35, 8) ,
- new Player("Roy", 34, 9) ,
-],[1,2,3,4,5,6,7,8,9])
-
-let demoTeam2 = new Team([
- new Player("Chase", 26, 1) ,
- new Player("Ryan", 5, 2) ,
- new Player("Jimmy", 11, 3) ,
- new Player("Carlos", 40, 4) ,
- new Player("Shane", 3, 5) ,
- new Player("Freddy", 22, 6) ,
- new Player("Cliff", 33, 7) ,
- new Player("Cole", 35, 8) ,
- new Player("Roy", 34, 9) ,
-],[1,2,3,4,5,6,7,8,9])
-
-let hi = new HalfInning(demoTeam1, demoTeam2)
-
-
-hi.newBatter(demoTeam1.currentBatter)
+let game = new Game()
+game.start()
 
 export default {
   name: "home",
 
   data: function() {
     return {
-      hi: hi,
-      battingTeam: demoTeam1,
-      pitchingTeam: demoTeam2,
+      game: game,
+      // battingTeam: demoTeam1,
+      // pitchingTeam: demoTeam2,
       PT: PitchTypes
     };
   },
@@ -101,7 +78,8 @@ export default {
     },
 
     pitch(outcome) {
-      // force a particular outcome
+      let hi = this.game.currentHalfInning
+
       if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
         // groundout turns into double play
         outcome = PitchTypes.DOUBLE_PLAY
@@ -111,7 +89,7 @@ export default {
         outcome = PitchTypes.SAC_FLY
       }
 
-      hi.onEvent(new Pitch(demoTeam2.currentPitcher, demoTeam1.currentBatter, 'fastball', 95, outcome))
+      hi.onPitch('fastball', 95, outcome)
     }
   },
 

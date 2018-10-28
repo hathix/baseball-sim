@@ -12,11 +12,13 @@ export default class HalfInning {
   /**
   Params:
     battingTeam, pitchingTeam {Team}
+    game {Game} - the game this halfInning is a part of
   */
-  constructor(battingTeam, pitchingTeam) {
+  constructor(battingTeam, pitchingTeam, game) {
 
     // all the temporary state for a half-inning lives here
     // a new halfinning class is created for each half-inning
+    this.game = game // we just alert this to make a new half-inning when the current one ends
 
     this.outs = 0
 
@@ -36,8 +38,6 @@ export default class HalfInning {
     // (baserunners[0] is home, representing the batter-runner)
     this.baserunners = [null, null, null, null]
 
-    this.pitcher = null
-
     // the teams from which to source batters
     this.battingTeam = battingTeam
     this.pitchingTeam = pitchingTeam
@@ -48,6 +48,10 @@ export default class HalfInning {
   get batter() {
     // the batter-runner is stored in base 0
     return this.baserunners[0]
+  }
+
+  get pitcher() {
+    return this.pitchingTeam.currentPitcher
   }
 
   isRunnerOn(baseNumber){
@@ -192,14 +196,10 @@ export default class HalfInning {
     The current batter is out.
   */
   batterOut(pitch) {
-    // get them out of home)
-    this.outs++
-    // no need to reset balls and strikes, since newBatter() will do that
+    // add an out
+    this.addOut()
 
-    if (this.outs >= 3) {
-      // TODO end the half inning
-    }
-    else {
+    if (this.outs < 3) {
       // next batter is up
       this.nextBatter()
     }
@@ -209,11 +209,14 @@ export default class HalfInning {
     // clear the base
     this.setBaserunner(baseNumber, null)
 
-    // TODO make a generic function that will handle when anyone at a certain base
-    // is out (including the batter). it should handle this.outs++ and stuff
+    // tally an out
+    this.addOut()
+  }
+
+  addOut() {
     this.outs++
     if (this.outs >= 3) {
-      // TODO end the half inning
+      this.game.nextHalfInning()
     }
   }
 
@@ -292,6 +295,13 @@ export default class HalfInning {
       // TODO handle this
       // could be a pickoff, passed ball, steal, defensive indifference
     }
+  }
+
+  /**
+    Shorthand for onEvent() that focuses on just the pitch.
+  */
+  onPitch(pitchType, speed, outcome) {
+    this.onEvent(new Pitch(this.pitcher, this.batter, pitchType, speed, outcome))
   }
 
   walk(pitch) {
