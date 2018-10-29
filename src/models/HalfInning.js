@@ -318,10 +318,17 @@ export default class HalfInning {
     Generic method for a base hit.
   */
   hit(pitch, numBases) {
-    // TODO:advanced not all runners will advance the same # of bases;
+    // TODO (advanced) not all runners will advance the same # of bases;
     // really fast runners on base may get an extra +1 on a single or double
     // (or a triple, but anyone on base scores on a triple anyway)
-    this.advanceAllRunners(numBases)
+
+    // the guy on base goes numBases, but anyone on base can go +1
+    // TODO make this random with some percentage, or based on speed
+    this.advanceBaserunner(3, numBases + 1)
+    this.advanceBaserunner(2, numBases + 1)
+    this.advanceBaserunner(1, numBases + 1)
+    this.advanceBaserunner(0, numBases) // TODO have a helper fn for advanceBatter
+
     this.hits++
 
     // TODO have each of these event functions return a string with the outcome
