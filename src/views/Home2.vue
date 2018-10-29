@@ -29,7 +29,7 @@
       </b-button-group>
     </div>
     <div v-if="hi.outs >= 3">
-      <button @click="game.nextHalfInning()">Next</button>
+      <b-button variant="primary" @click="game.nextHalfInning()">Next</b-button>
     </div>
 
 

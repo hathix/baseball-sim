@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table>
+    <b-table striped :fields="fields" :items="scores">
       <tr>
         <td>Team</td>
         <td v-for="i in inningNumbers">
@@ -40,7 +40,7 @@
         <td>{{ game.totalScores.home.hits }}</td>
         <td>{{ game.totalScores.home.errors }}</td>
       </tr>
-    </table>
+    </b-table>
   </div>
 </template>
 
@@ -76,6 +76,43 @@ export default {
       // range of all the innings that we must show in the table but
       // not put a score in yet
       return _.range(1, this.numInningsToShow - this.game.inningNumber + 1)
+    },
+
+    fields() {
+      // the order of the fields to show in the table
+      // convert inning numbers to strings for this
+      let inningStrings = this.inningNumbers.map(i => i + "")
+      // put the team name before the inning numbers; put RHE after
+      return _.concat("team", inningStrings, ["R", "H", "E"])
+    },
+
+    scores() {
+      // the contents of the score table
+      // scores for each inning; just an array
+      let awayScores = this.game.inningScores.map(score => score.top)
+      // this is like [1,0,0] => turn it into {1: 1, 2: 0, 3: 0}
+      // by some quirk, the object keys must be strings
+      let awayObj = _.zipObject(this.inningNumbers.map(i => i + ""), awayScores)
+      // now add team name & RHE
+      awayObj.team = this.game.teams.away.name
+      awayObj.R = this.game.totalScores.away.runs
+      awayObj.H = this.game.totalScores.away.hits
+      awayObj.E = this.game.totalScores.away.errors
+
+      // repeat for home
+      // TODO abstract out to avoid dupes
+      let homeScores = this.game.inningScores.map(score => score.bottom)
+      let homeObj = _.zipObject(this.inningNumbers.map(i => i + ""), homeScores)
+      // now add team name & RHE
+      homeObj.team = this.game.teams.home.name
+      homeObj.R = this.game.totalScores.home.runs
+      homeObj.H = this.game.totalScores.home.hits
+      homeObj.E = this.game.totalScores.home.errors
+
+      return [
+        awayObj,
+        homeObj
+      ]
     }
   }
 };

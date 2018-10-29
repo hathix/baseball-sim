@@ -107,7 +107,8 @@ export default class Game {
     // this keeps top and bottom in a sequential order
     // but we want to group into {top, bottom} objects (so the array is half as long)
     let rawScoreArray = this.halfInnings.map(hi => hi.runs)
-    let inningScoreArray = _.chunk(rawScoreArray, 2).map(([top, bottom]) => ({ top, bottom }))
+    let inningScoreArray = _.chunk(rawScoreArray, 2).map(([top, bottom], index) => (
+      { inning: index + 1, top: top, bottom: bottom }))
 
     return inningScoreArray
   }
