@@ -1,35 +1,39 @@
 <template>
-  <div>
+  <b-container>
     <div style="float:left; width: 500px">
       <Scoreboard :game="game"></Scoreboard>
     </div>
 
     <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
-    <button @click="pitch(PT.BALL)">Ball</button>
-    <button @click="pitch(PT.STRIKE_SWINGING)">Strike</button>
-    <button @click="pitch(PT.SINGLE)">1B</button>
-    <button @click="pitch(PT.DOUBLE)">2B</button>
-    <button @click="pitch(PT.TRIPLE)">3B</button>
-    <button @click="pitch(PT.HOMER)">HR</button>
-    <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
-    <button @click="pitch(PT.GROUNDOUT)">Groundout</button>
-    <button @click="pitch(PT.FLYOUT)">Flyout</button>
-    <button @click="pitch(PT.LINEOUT)">Lineout</button>
-    <button @click="pitch(PT.ERROR)">Error</button>
+    <b-button-group>
+      <b-button @click="pitch(PT.BALL)">Ball</b-button>
+      <b-button @click="pitch(PT.STRIKE_SWINGING)">Strike</b-button>
+      <b-button @click="pitch(PT.SINGLE)">1B</b-button>
+      <b-button @click="pitch(PT.DOUBLE)">2B</b-button>
+      <b-button @click="pitch(PT.TRIPLE)">3B</b-button>
+      <b-button @click="pitch(PT.HOMER)">HR</b-button>
+      <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
+      <b-button @click="pitch(PT.GROUNDOUT)">Groundout</b-button>
+      <b-button @click="pitch(PT.FLYOUT)">Flyout</b-button>
+      <b-button @click="pitch(PT.LINEOUT)">Lineout</b-button>
+      <b-button @click="pitch(PT.ERROR)">Error</b-button>
+    </b-button-group>
 
-    <br>
+    <br><br>
     <div v-if="hi.outs < 3">
-      <button @click="randomPitch()">Normal</button>
-      <button @click="swingForTheFences()">Swing</button>
-      <button @click="takePitch()">Take</button>
-      <button @click="pitch(PT.BUNT)">Bunt</button>
+      <b-button-group>
+        <b-button variant="primary" @click="randomPitch()">Normal</b-button>
+        <b-button variant="danger" @click="swingForTheFences()">Swing</b-button>
+        <b-button variant="success" @click="takePitch()">Take</b-button>
+        <b-button variant="secondary" @click="pitch(PT.BUNT)">Bunt</b-button>
+      </b-button-group>
     </div>
     <div v-if="hi.outs >= 3">
       <button @click="game.nextHalfInning()">Next</button>
     </div>
 
 
-  </div>
+  </b-container>
 </template>
 
 <script>
