@@ -140,15 +140,15 @@ export default class Game {
     else {
       // from the 9th inning on, the game is over if either:
       // - we've finished the top of the inning and the home team is leading
-      // - we've finished the bottom of the inning and one team is leading
-      if (this.currentHalfInning.outs < 3) {
-        return false
-      }
-      else {
-        let homeScore = this.totalScores.home.runs
-        let awayScore = this.totalScores.away.runs
-        return (this.isTop && homeScore > awayScore) || (!this.isTop && homeScore != awayScore)
-      }
+      // - we've finished the bottom of the inning and the away team is leading
+      // - we're in the bottom of the inning and the home team is leading
+      let outs = this.currentHalfInning.outs
+      let homeScore = this.totalScores.home.runs
+      let awayScore = this.totalScores.away.runs
+
+      return ((outs === 3 && this.isTop && homeScore > awayScore) ||
+        (outs === 3 && !this.isTop && homeScore < awayScore) ||
+        (!this.isTop && homeScore > awayScore))
     }
   }
 

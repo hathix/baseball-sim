@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <div style="float:left; width: 400px">
+    <div style="float:left; width: 500px">
       <Scoreboard :game="game"></Scoreboard>
     </div>
 
@@ -12,6 +12,8 @@
       <b-button @click="pitch(PT.DOUBLE)">2B</b-button>
       <b-button @click="pitch(PT.TRIPLE)">3B</b-button>
       <b-button @click="pitch(PT.HOMER)">HR</b-button>
+    </b-button-group>
+    <b-button-group>
       <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
       <b-button @click="pitch(PT.GROUNDOUT)">Groundout</b-button>
       <b-button @click="pitch(PT.FLYOUT)">Flyout</b-button>
@@ -21,7 +23,7 @@
     </b-button-group>
 
     <br><br>
-    <div v-if="hi.outs < 3">
+    <div v-if="hi.outs < 3 && !game.isOver">
       <b-button-group>
         <b-button variant="primary" @click="randomPitch()">Normal</b-button>
         <b-button variant="danger" @click="swingForTheFences()">Swing</b-button>
