@@ -9,6 +9,7 @@
     "test": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
     "csv-parse": "^2.5.0",
     "enumify": "^1.0.4",
     "fs": "0.0.1-security",
