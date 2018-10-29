@@ -63,7 +63,17 @@ export default {
       // repeat for home
       // TODO abstract out to avoid dupes
       let homeScores = this.game.inningScores.map(score => score.bottom)
+      // edge case: if the game is over and the home team won without playing
+      // the bottom of the last inning (i.e. non-walk-off win), then
+      // the final inning's score should show as "X"
+      if ((this.game.isOver
+          && this.game.isTop
+          && this.game.currentHalfInning.outs === 3
+          && this.game.totalScores.home.runs > this.game.totalScores.away.runs)) {
+        homeScores[homeScores.length - 1] = "X"
+      }
       let homeObj = _.zipObject(this.inningNumbers.map(i => i + ""), homeScores)
+
       // now add team name & RHE
       homeObj.team = this.game.teams.home.name
       homeObj.R = this.game.totalScores.home.runs
