@@ -203,6 +203,10 @@ export default class HalfInning {
       // next batter is up
       this.nextBatter()
     }
+
+    // TODO this should be a generic method and shouldn't return a result
+    // (because popout, lineout, flyout should be handled separately)
+    return "Someout"
   }
 
   runnerOut(baseNumber) {
@@ -229,61 +233,66 @@ export default class HalfInning {
   onEvent(ev) {
     if (ev instanceof Pitch) {
 
+      // TODO rename
+      // the result of the play - includes strikeouts and walks, outs, hits
+      // (ignores balls/strikes)
+      let result = null
+
       // call some function with the Event
       // we will do minimal work in this function and instead farm it out
       // to other functions
       switch (ev.outcome) {
         case PitchTypes.BALL:
-          this.ball(ev)
+          result = this.ball(ev)
           break
         case PitchTypes.STRIKE_SWINGING:
         case PitchTypes.STRIKE_LOOKING:
         // TODO handle foul bunt, which is treated just like a strike
-          this.strike(ev)
+          result = this.strike(ev)
           break
         case PitchTypes.FOUL:
-          this.foul(ev)
-          break
-        case PitchTypes.WALK:
-          this.walk(ev)
+          result = this.foul(ev)
           break
         case PitchTypes.SINGLE:
-          this.hit(ev, 1)
+          result = this.hit(ev, 1)
           break
         case PitchTypes.DOUBLE:
-          this.hit(ev, 2)
+          result = this.hit(ev, 2)
           break
         case PitchTypes.TRIPLE:
-          this.hit(ev, 3)
+          result = this.hit(ev, 3)
           break
         case PitchTypes.HOMER:
-          this.hit(ev, 4)
+          // TODO need a specialized handler for each type of hit
+          result = this.hit(ev, 4)
           break
         case PitchTypes.ERROR:
-          this.error(ev)
+          result = this.error(ev)
           break
         case PitchTypes.SAC_FLY:
-          this.sacFly(ev)
+          result = this.sacFly(ev)
           break
         case PitchTypes.DOUBLE_PLAY:
           // TODO handle the params: it depends who gets out
-          this.doublePlay(ev)
+          result = this.doublePlay(ev)
           break
         case PitchTypes.FLYOUT:
         case PitchTypes.LINEOUT:
         case PitchTypes.POPOUT:
-          this.batterOut()
+          result = this.batterOut()
           break
         case PitchTypes.GROUNDOUT:
-          this.groundout(ev)
+          result = this.groundout(ev)
           break
         case PitchTypes.BUNT:
-          this.bunt(ev)
+          result = this.bunt(ev)
           break
         default:
           console.log("not handling", ev.outcome)
           break
       }
+
+      if (result) { console.log(result) }
 
       // update pitch with new state of the world
       // TODO store a report of what happened, like who scored or if he struck out
@@ -312,6 +321,8 @@ export default class HalfInning {
     // the batter-runner goes to first and everyone else is forced up
     // (`advanceBaserunner` takes care of forcing)
     this.advanceBaserunner(0, 1)
+
+    return "Walk"
   }
 
   /**
@@ -332,13 +343,16 @@ export default class HalfInning {
     this.hits++
 
     // TODO have each of these event functions return a string with the outcome
-    // this can then be shown on the Home
+    // (single, double, etc)
+    return "Hit"
   }
 
   error(pitch) {
     // for now we assume an error is just like a single
     this.advanceAllRunners(1)
     this.errors++
+
+    return "Error"
   }
 
   sacFly(pitch) {
@@ -347,6 +361,8 @@ export default class HalfInning {
 
     if (this.outs < 3) {
       this.advanceBaserunner(3, 1)
+
+      return "Sac Fly"
     }
   }
 
@@ -355,6 +371,8 @@ export default class HalfInning {
     if (this.strikes >= 3) {
       // out!
       this.batterOut(pitch)
+      // TODO make a play/outcome/action/something enum
+      return "Strikeout"
     }
   }
 
@@ -368,7 +386,7 @@ export default class HalfInning {
   ball(pitch) {
     this.balls++
     if (this.balls >= 4) {
-      this.walk(pitch)
+      return this.walk(pitch)
     }
   }
 
@@ -385,6 +403,8 @@ export default class HalfInning {
       this.advanceBaserunner(3, 1)
       this.advanceBaserunner(2, 1)
     }
+
+    return "Groundout"
   }
 
   doublePlay(pitch) {
@@ -402,6 +422,8 @@ export default class HalfInning {
       this.advanceBaserunner(3, 1)
       this.advanceBaserunner(2, 1)
     }
+
+    return "GIDP"
   }
 
   bunt(pitch) {
@@ -429,5 +451,7 @@ export default class HalfInning {
       // tried bunting with 2 outs? that's just an out, man
       this.groundout(pitch)
     }
+
+    return "Bunt"
   }
 }

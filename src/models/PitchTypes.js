@@ -4,7 +4,7 @@ export default {
   STRIKE_SWINGING: "strikeSwinging",
   STRIKE_LOOKING: "strikeLooking",
   FOUL: "foul",
-  WALK: "walk",
+  // TODO add IBB
   SINGLE: "single",
   DOUBLE: "double",
   TRIPLE: "triple",
