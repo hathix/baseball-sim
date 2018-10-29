@@ -32,6 +32,7 @@ hi<template>
     <p>Hits: {{ hi.hits }}</p>
     <p>Errors: {{ hi.errors }}</p> -->
 
+    <p>Pitching: {{ hi.pitcher.toString() }}</p>
     <p>At bat: {{ hi.batter.toString() }}</p>
     <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
 

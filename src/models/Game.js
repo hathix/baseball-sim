@@ -152,6 +152,11 @@ export default class Game {
     }
   }
 
+  get pitches() {
+    // all pitches from all halfinnings
+    return _.flatten(this.halfInnings.map(hi => hi.pitches))
+  }
+
   start() {
     // starts the game
     // start the top of the 1st; subsequent innings will be created on demand
@@ -169,4 +174,25 @@ export default class Game {
     // start it
     this.currentHalfInning.newBatter(battingTeam.currentBatter)
   }
+
+  /**
+    Returns a list of pitches that the given batter has faced.
+  */
+  pitchesForBatter(batter) {
+    return this.pitches.filter(pitch => pitch.batter === batter)
+  }
+
+  // TODO this is bad because it ignores strikeouts and walks 
+  // /**
+  //   A list of all plays (single, double, etc) the given batter has done.
+  //   This basically excludes all balls and strikes.
+  //   Only gives the outcomes.
+  // */
+  // playsForBatter(batter) {
+  //   // TODO stop hardcoding this list
+  //   return this.pitches.filter(pitch => (pitch.batter === batter &&
+  //       pitch.outcome != PitchTypes.BALL && pitch.outcome != PitchTypes.STRIKE_SWINGING &&
+  //       pitch.outcome != PitchTypes.STRIKE_LOOKING && pitch.outcome != PitchTypes.FOUL))
+  //     .map(pitch => pitch.outcome)
+  // }
 }
