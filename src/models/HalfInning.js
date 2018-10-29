@@ -216,7 +216,7 @@ export default class HalfInning {
   addOut() {
     this.outs++
     if (this.outs >= 3) {
-      this.game.nextHalfInning()
+      // this.game.nextHalfInning()
     }
   }
 

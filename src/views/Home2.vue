@@ -18,10 +18,15 @@
     <button @click="pitch(PT.ERROR)">Error</button>
 
     <br>
-    <button @click="randomPitch()">Normal</button>
-    <button @click="swingForTheFences()">Swing</button>
-    <button @click="takePitch()">Take</button>
-    <button @click="pitch(PT.BUNT)">Bunt</button>
+    <div v-if="hi.outs < 3">
+      <button @click="randomPitch()">Normal</button>
+      <button @click="swingForTheFences()">Swing</button>
+      <button @click="takePitch()">Take</button>
+      <button @click="pitch(PT.BUNT)">Bunt</button>
+    </div>
+    <div v-if="hi.outs >= 3">
+      <button @click="game.nextHalfInning()">Next</button>
+    </div>
 
 
   </div>
@@ -51,6 +56,13 @@ export default {
       // pitchingTeam: demoTeam2,
       PT: PitchTypes
     };
+  },
+
+  computed: {
+    hi() {
+      // short form
+      return this.game.currentHalfInning
+    }
   },
 
   methods: {
