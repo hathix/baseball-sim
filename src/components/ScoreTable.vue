@@ -1,45 +1,6 @@
 <template>
   <div>
     <b-table striped :fields="fields" :items="scores">
-      <tr>
-        <td>Team</td>
-        <td v-for="i in inningNumbers">
-          {{ i }}
-        </td>
-
-        <!-- summaries -->
-        <td>R</td>
-        <td>H</td>
-        <td>E</td>
-      </tr>
-      <tr>
-        <td>{{ game.teams.away.name }}</td>
-        <td v-for="inningScore in game.inningScores">
-          {{ inningScore.top }}
-        </td>
-        <td v-for="empty in emptyInnings">
-          _
-        </td>
-
-        <!-- summaries -->
-        <td>{{ game.totalScores.away.runs }}</td>
-        <td>{{ game.totalScores.away.hits }}</td>
-        <td>{{ game.totalScores.away.errors }}</td>
-      </tr>
-      <tr>
-        <td>{{ game.teams.home.name }}</td>
-        <td v-for="inningScore in game.inningScores">
-          {{ inningScore.bottom }}
-        </td>
-        <td v-for="empty in emptyInnings">
-          _
-        </td>
-
-        <!-- summaries -->
-        <td>{{ game.totalScores.home.runs }}</td>
-        <td>{{ game.totalScores.home.hits }}</td>
-        <td>{{ game.totalScores.home.errors }}</td>
-      </tr>
     </b-table>
   </div>
 </template>
