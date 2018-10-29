@@ -76,7 +76,7 @@ export default class Game {
     return Math.ceil(this.halfInnings.length / 2)
   }
 
-  isTop() {
+  get isTop() {
     // top 1st => 1 HalfInning in array
     // bottom 1st => 2
     // top 5th => 9
@@ -133,6 +133,25 @@ export default class Game {
     }
   }
 
+  get isOver() {
+    if (this.inningNumber <= 8) {
+      return false
+    }
+    else {
+      // from the 9th inning on, the game is over if either:
+      // - we've finished the top of the inning and the home team is leading
+      // - we've finished the bottom of the inning and one team is leading
+      if (this.currentHalfInning.outs < 3) {
+        return false
+      }
+      else {
+        let homeScore = this.totalScores.home.runs
+        let awayScore = this.totalScores.away.runs
+        return (this.isTop && homeScore > awayScore) || (!this.isTop && homeScore != awayScore)
+      }
+    }
+  }
+
   start() {
     // starts the game
     // start the top of the 1st; subsequent innings will be created on demand
@@ -142,8 +161,8 @@ export default class Game {
 
   nextHalfInning() {
     // start an empty new half inning
-    let battingTeam = this.isTop() ? this.teams.away : this.teams.home
-    let pitchingTeam = this.isTop() ? this.teams.home : this.teams.away
+    let battingTeam = this.isTop ? this.teams.away : this.teams.home
+    let pitchingTeam = this.isTop ? this.teams.home : this.teams.away
     this.currentHalfInning = new HalfInning(battingTeam, pitchingTeam, this)
     this.halfInnings.push(this.currentHalfInning)
 
