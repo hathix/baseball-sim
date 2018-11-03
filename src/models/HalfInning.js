@@ -175,7 +175,7 @@ export default class HalfInning {
     // simulate that is to move the man on 3rd, then on 2nd, then on 1st, then
     // the batter-runner
     for (let i = 3; i >= 0; i--) {
-      this.advanceBaserunner(this.i, numBases)
+      this.advanceBaserunner(i, numBases)
     }
   }
 
@@ -208,10 +208,16 @@ export default class HalfInning {
       // next batter is up
       this.nextBatter()
     }
+  }
 
-    // TODO this should be a generic method and shouldn't return a result
-    // (because popout, lineout, flyout should be handled separately)
-    return "Someout"
+  lineout(pitch) {
+    this.batterOut(pitch)
+    return "Lineout"
+  }
+
+  popout(pitch) {
+    this.batterOut(pitch)
+    return "Popout"
   }
 
   runnerOut(baseNumber) {
@@ -234,6 +240,8 @@ export default class HalfInning {
 
   /**
     Updates the state of the HalfInning based on the event `ev`.
+
+    Returns a result of the play - strikeout, walk, etc
   */
   onEvent(ev) {
     if (ev instanceof Pitch) {
@@ -285,8 +293,10 @@ export default class HalfInning {
           result = this.flyout()
           break
         case PitchTypes.LINEOUT:
+          result = this.lineout()
+          break
         case PitchTypes.POPOUT:
-          result = this.batterOut()
+          result = this.popout()
           break
         case PitchTypes.GROUNDOUT:
           result = this.groundout(ev)
@@ -299,7 +309,8 @@ export default class HalfInning {
           break
       }
 
-      if (result) { console.log(result) }
+      // if (result) { console.log(result) }
+
 
       // update pitch with new state of the world
       // TODO store a report of what happened, like who scored or if he struck out
@@ -308,11 +319,16 @@ export default class HalfInning {
         strikes: this.strikes,
         outs: this.outs
       }
+      ev.play = result // TODO fix all this naming
       this.pitches.push(ev)
+
+      return result
     }
     else {
       // TODO handle this
       // could be a pickoff, passed ball, steal, defensive indifference
+
+      return null
     }
   }
 
@@ -351,7 +367,15 @@ export default class HalfInning {
 
     // TODO have each of these event functions return a string with the outcome
     // (single, double, etc)
-    return "Hit"
+    let result = null
+    switch (numBases) {
+      case 1: result = "Single"; break
+      case 2: result = "Double"; break
+      case 3: result = "Triple"; break
+      case 4: result = "Homer"; break
+    }
+
+    return result
   }
 
   error(pitch) {
@@ -381,6 +405,9 @@ export default class HalfInning {
       // TODO make a play/outcome/action/something enum
       return "Strikeout"
     }
+
+    // no play has been logged - strikes, fouls, balls dont count
+    return null
   }
 
   foul(pitch) {
@@ -388,6 +415,8 @@ export default class HalfInning {
     if (this.strikes < 2) {
       this.strikes++
     }
+
+    return null
   }
 
   ball(pitch) {
@@ -395,6 +424,8 @@ export default class HalfInning {
     if (this.balls >= 4) {
       return this.walk(pitch)
     }
+
+    return null
   }
 
   flyout(pitch) {

@@ -18,10 +18,14 @@ export default class Pitch extends Event {
     this.speed = speed
 
     // outcome
-    this.outcome = outcome // one of "single", "walk", etc
+    // TODO rename. difference between pitch's direct result and the play
+    // e.g. strikes and singles are direct results & GIDP is not,
+    // but GIDP and singles are plays & strikes are not
+    this.outcome = outcome // one of "ball", "groundout", etc
     this.params = params // depends on the pitch. some might have special parameters
       // like how a fielder's choice might get someone at any base out
       // or a GIDP could get men at 2nd+3rd or 1st+2nd out
+      this.play = null // to be filled in later. May not be anything
 
     // To be filled in by the HalfInning
     this.gameState = {
@@ -34,7 +38,12 @@ export default class Pitch extends Event {
   }
 
   get description() {
-    return `${this.batter.name} got a ${this.outcome}. ${this.gameState.balls}-${this.gameState.strikes}, ${this.gameState.outs} out. (${this.speed}mph ${this.pitchType})`
+    // sometimes there's a play, sometimes there isn't
+    // if there is a play, tell what it is (single, GIDP, homer, etc)
+    // if not, it's just a plain ol' strike or ball or foul
+    let playString = this.play ? this.play : this.outcome
+
+    return `${this.batter.name} got a ${playString}. ${this.gameState.balls}-${this.gameState.strikes}, ${this.gameState.outs} out. (${this.speed}mph ${this.pitchType})`
   }
 
   toString() {
