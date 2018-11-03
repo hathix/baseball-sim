@@ -1,16 +1,15 @@
-// TODO rename to OutcomeType
+// This is the ultimate outcome of a plate appearance
 export default {
-  BALL: "ball",
-  STRIKE_SWINGING: "strikeSwinging",
-  STRIKE_LOOKING: "strikeLooking",
-  FOUL: "foul",
+  STRIKEOUT: "strikeout",
+  WALK: "walk",
+  INTENTIONAL_WALK: "intentionalWalk",
   SINGLE: "single",
   DOUBLE: "double",
   TRIPLE: "triple",
   HOMER: "homer",
   ERROR: "error",
-  // SAC_FLY: "sacFly",
-  // DOUBLE_PLAY: "doublePlay",
+  SAC_FLY: "sacFly",
+  DOUBLE_PLAY: "doublePlay",
   FLYOUT: "flyout",
   GROUNDOUT: "groundout",
   LINEOUT: "lineout",

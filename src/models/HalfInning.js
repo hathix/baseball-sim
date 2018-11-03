@@ -269,14 +269,16 @@ export default class HalfInning {
         case PitchTypes.ERROR:
           result = this.error(ev)
           break
-        case PitchTypes.SAC_FLY:
-          result = this.sacFly(ev)
-          break
-        case PitchTypes.DOUBLE_PLAY:
-          // TODO handle the params: it depends who gets out
-          result = this.doublePlay(ev)
-          break
+        // case PitchTypes.SAC_FLY:
+        //   result = this.sacFly(ev)
+        //   break
+        // case PitchTypes.DOUBLE_PLAY:
+        //   // TODO handle the params: it depends who gets out
+        //   result = this.doublePlay(ev)
+        //   break
         case PitchTypes.FLYOUT:
+          result = this.flyout()
+          break
         case PitchTypes.LINEOUT:
         case PitchTypes.POPOUT:
           result = this.batterOut()
@@ -355,16 +357,16 @@ export default class HalfInning {
     return "Error"
   }
 
-  sacFly(pitch) {
-    // guy on 3rd scores, batter is out
-    this.batterOut()
-
-    if (this.outs < 3) {
-      this.advanceBaserunner(3, 1)
-
-      return "Sac Fly"
-    }
-  }
+  // sacFly(pitch) {
+  //   // guy on 3rd scores, batter is out
+  //   this.batterOut()
+  //
+  //   if (this.outs < 3) {
+  //     this.advanceBaserunner(3, 1)
+  //
+  //     return "Sac Fly"
+  //   }
+  // }
 
   strike(pitch) {
     this.strikes++
@@ -387,6 +389,22 @@ export default class HalfInning {
     this.balls++
     if (this.balls >= 4) {
       return this.walk(pitch)
+    }
+  }
+
+  flyout(pitch) {
+    // batter is def out
+    this.batterOut()
+
+    // if there are still < 3 outs (b/c we just counted the batter as out),
+    // this could turn into a Sac Fly
+    if (this.isRunnerOn(3) && this.outs < 3) {
+      // guy on 3rd can go home
+      this.advanceBaserunner(3, 1)
+      return "Sac Fly"
+    }
+    else {
+      return "Flyout"
     }
   }
 

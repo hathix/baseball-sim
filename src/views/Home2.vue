@@ -144,14 +144,17 @@ export default {
     pitch(outcome) {
       let hi = this.game.currentHalfInning
 
-      if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
-        // groundout turns into double play
-        outcome = PitchTypes.DOUBLE_PLAY
-      }
-      if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
-        // flyout turns into sac fly
-        outcome = PitchTypes.SAC_FLY
-      }
+      // This logic belongs in the HalfInning.
+      // PitchType is the raw primitive of what happened.
+      // The HalfInning decides if groundouts turn into DPs or flyouts turn into SFs
+      // if (outcome === PitchTypes.GROUNDOUT && hi.isRunnerOn(1) && hi.outs < 2) {
+      //   // groundout turns into double play
+      //   outcome = PitchTypes.DOUBLE_PLAY
+      // }
+      // if (outcome === PitchTypes.FLYOUT && hi.isRunnerOn(3) && hi.outs < 2) {
+      //   // flyout turns into sac fly
+      //   outcome = PitchTypes.SAC_FLY
+      // }
 
       hi.onPitch('fastball', 95, outcome)
     }
