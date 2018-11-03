@@ -41,9 +41,9 @@ export default class Pitch extends Event {
     // sometimes there's a play, sometimes there isn't
     // if there is a play, tell what it is (single, GIDP, homer, etc)
     // if not, it's just a plain ol' strike or ball or foul
-    let playString = this.play ? this.play : this.outcome
+    let playString = this.play ? this.play.verb : `got a ${this.outcome}`
 
-    return `${this.batter.name} got a ${playString}. ${this.gameState.balls}-${this.gameState.strikes}, ${this.gameState.outs} out. (${this.speed}mph ${this.pitchType})`
+    return `${this.batter.name} ${playString}. ${this.gameState.balls}-${this.gameState.strikes}, ${this.gameState.outs} out. (${this.speed}mph ${this.pitchType})`
   }
 
   toString() {

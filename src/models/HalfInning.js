@@ -2,6 +2,7 @@ import Vue from "vue";
 import Event from "@/models/Event";
 import Pitch from "@/models/Pitch";
 import PitchTypes from "@/models/PitchTypes"
+import PlayTypes from "@/models/PlayTypes"
 
 /**
   Stores state for a half-inning.
@@ -212,12 +213,12 @@ export default class HalfInning {
 
   lineout(pitch) {
     this.batterOut(pitch)
-    return "Lineout"
+    return PlayTypes.LINEOUT
   }
 
   popout(pitch) {
     this.batterOut(pitch)
-    return "Popout"
+    return PlayTypes.POPOUT
   }
 
   runnerOut(baseNumber) {
@@ -345,7 +346,7 @@ export default class HalfInning {
     // (`advanceBaserunner` takes care of forcing)
     this.advanceBaserunner(0, 1)
 
-    return "Walk"
+    return PlayTypes.WALK
   }
 
   /**
@@ -369,10 +370,10 @@ export default class HalfInning {
     // (single, double, etc)
     let result = null
     switch (numBases) {
-      case 1: result = "Single"; break
-      case 2: result = "Double"; break
-      case 3: result = "Triple"; break
-      case 4: result = "Homer"; break
+      case 1: result = PlayTypes.SINGLE; break
+      case 2: result = PlayTypes.DOUBLE; break
+      case 3: result = PlayTypes.TRIPLE; break
+      case 4: result = PlayTypes.HOMER; break
     }
 
     return result
@@ -383,7 +384,7 @@ export default class HalfInning {
     this.advanceAllRunners(1)
     this.errors++
 
-    return "Error"
+    return PlayTypes.ERROR
   }
 
   // sacFly(pitch) {
@@ -403,7 +404,7 @@ export default class HalfInning {
       // out!
       this.batterOut(pitch)
       // TODO make a play/outcome/action/something enum
-      return "Strikeout"
+      return PlayTypes.STRIKEOUT
     }
 
     // no play has been logged - strikes, fouls, balls dont count
@@ -437,10 +438,10 @@ export default class HalfInning {
     if (this.isRunnerOn(3) && this.outs < 3) {
       // guy on 3rd can go home
       this.advanceBaserunner(3, 1)
-      return "Sac Fly"
+      return PlayTypes.SAC_FLY
     }
     else {
-      return "Flyout"
+      return PlayTypes.FLYOUT
     }
   }
 
@@ -449,13 +450,13 @@ export default class HalfInning {
     // but if someone is on 2nd/3rd, we can advance
     this.batterOut()
 
-    let outcome = "Groundout"
+    let outcome = PlayTypes.GROUNDOUT
 
     // if there's a guy on 1st and some outs left, that guy gets out in a Double Play
     // we check if outs < 3 b/c one guy was already out
     if (this.isRunnerOn(1) && this.outs < 3) {
       this.runnerOut(1)
-      outcome = "Double Play"
+      outcome = PlayTypes.DOUBLE_PLAY
     }
 
     // if we still have < 3 outs and someone is on 2nd or 3rd,
@@ -516,6 +517,6 @@ export default class HalfInning {
       this.groundout(pitch)
     }
 
-    return "Bunt"
+    return PlayTypes.BUNT
   }
 }

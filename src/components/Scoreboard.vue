@@ -33,7 +33,7 @@ hi<template>
     <p>Errors: {{ hi.errors }}</p> -->
 
     <p>Pitching: {{ hi.pitcher.toString() }}</p>
-    <p>At bat: {{ hi.batter.toString() }} ({{ game.playsForBatter(hi.batter)}}) </p>
+    <p>At bat: {{ hi.batter.toString() }} ({{ game.playsForBatter(hi.batter).map(b => b.short) }}) </p>
     <p>On deck: {{ hi.battingTeam.onDeck.toString() }}</p>
 
     <ScoreTable :game="game"></ScoreTable>
