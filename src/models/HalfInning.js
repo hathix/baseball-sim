@@ -105,11 +105,13 @@ export default class HalfInning {
       (so this is not to be used directly for base hits; this is mostly
       for walks, balks, or other situations where one player advances
       and the others stay unless forced)
+
+    Returns true if the given runner scored.
   */
   advanceBaserunner(from, numBases) {
     if (from > 3 || this.baserunners[from] === null) {
       // nobody to move
-      return
+      return false
     }
 
     let to = Math.min(from + numBases, 4) // never let anyone wrap around home
@@ -154,6 +156,9 @@ export default class HalfInning {
       // get the next batter in here
       this.nextBatter()
     }
+
+    // scored if the base you go to is at least 4
+    return to >= 4
   }
 
   /**
@@ -170,7 +175,7 @@ export default class HalfInning {
     // simulate that is to move the man on 3rd, then on 2nd, then on 1st, then
     // the batter-runner
     for (let i = 3; i >= 0; i--) {
-      this.advanceBaserunner(i, numBases)
+      this.advanceBaserunner(this.i, numBases)
     }
   }
 
@@ -411,27 +416,18 @@ export default class HalfInning {
   groundout(pitch) {
     // this is specifically NOT a double play
     // but if someone is on 2nd/3rd, we can advance
-
     this.batterOut()
 
-    if (this.outs < 3) {
-      // TODO this should only happen if you have a fast baserunner
-      // advanceRunner checks if there's anyone on 2nd and 3rd and fails silently
-      // otherwise, which works in our favor
-      this.advanceBaserunner(3, 1)
-      this.advanceBaserunner(2, 1)
+    let outcome = "Groundout"
+
+    // if there's a guy on 1st and some outs left, that guy gets out in a Double Play
+    // we check if outs < 3 b/c one guy was already out
+    if (this.isRunnerOn(1) && this.outs < 3) {
+      this.runnerOut(1)
+      outcome = "Double Play"
     }
 
-    return "Groundout"
-  }
-
-  doublePlay(pitch) {
-    // TODO get parameters on who got out
-    this.batterOut()
-    // for now, assume the guy on 1st is out
-    this.runnerOut(1)
-
-    // niche case: if we still have < 3 outs and someone is on 2nd or 3rd,
+    // if we still have < 3 outs and someone is on 2nd or 3rd,
     // he can advance
     if (this.outs < 3) {
       // TODO this should only happen if you have a fast baserunner
@@ -441,8 +437,27 @@ export default class HalfInning {
       this.advanceBaserunner(2, 1)
     }
 
-    return "GIDP"
+    return outcome
   }
+  //
+  // doublePlay(pitch) {
+  //   // TODO get parameters on who got out
+  //   this.batterOut()
+  //   // for now, assume the guy on 1st is out
+  //   this.runnerOut(1)
+  //
+  //   // niche case: if we still have < 3 outs and someone is on 2nd or 3rd,
+  //   // he can advance
+  //   if (this.outs < 3) {
+  //     // TODO this should only happen if you have a fast baserunner
+  //     // advanceRunner checks if there's anyone on 2nd and 3rd and fails silently
+  //     // otherwise, which works in our favor
+  //     this.advanceBaserunner(3, 1)
+  //     this.advanceBaserunner(2, 1)
+  //   }
+  //
+  //   return "GIDP"
+  // }
 
   bunt(pitch) {
     // TODO we assume it succeeds; add a potential failure rate
