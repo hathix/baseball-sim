@@ -182,7 +182,17 @@ export default class Game {
     return this.pitches.filter(pitch => pitch.batter === batter)
   }
 
-  // TODO this is bad because it ignores strikeouts and walks 
+  /**
+    Returns all plays (singles, strikeouts, etc) the given batter has been
+    involved in. Ignores strikes and balls and fouls.
+  */
+  playsForBatter(batter) {
+    return this.pitches.filter(pitch => pitch.batter === batter)
+      .map(pitch => pitch.play)
+      .filter(x => x) // a clever way to remove nulls/undefineds
+  }
+
+  // TODO this is bad because it ignores strikeouts and walks
   // /**
   //   A list of all plays (single, double, etc) the given batter has done.
   //   This basically excludes all balls and strikes.
