@@ -252,6 +252,10 @@ export default class HalfInning {
       // (ignores balls/strikes)
       let result = null
 
+      // to count # of runs and outs, track runs and outs before and after
+      let runsBefore = this.runs
+      let outsBefore = this.outs
+
       // call some function with the Event
       // we will do minimal work in this function and instead farm it out
       // to other functions
@@ -312,6 +316,13 @@ export default class HalfInning {
 
       // if (result) { console.log(result) }
 
+      // check how many runs/outs there are now
+      let runsAfter = this.runs
+      let outsAfter = this.outs
+
+      let runsScored = runsAfter - runsBefore
+      let outsMade = outsAfter - outsBefore
+
 
       // update pitch with new state of the world
       // TODO store a report of what happened, like who scored or if he struck out
@@ -320,7 +331,14 @@ export default class HalfInning {
         strikes: this.strikes,
         outs: this.outs
       }
-      ev.play = result // TODO fix all this naming
+
+      if (result) {
+        // we will clone the play object and assign other params to it
+        ev.play = _.cloneDeep(result) // TODO fix all this naming
+        ev.play.runsScored = runsScored
+        ev.play.outsMade = outsMade
+      }
+
       this.pitches.push(ev)
 
       return result

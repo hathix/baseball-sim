@@ -27,24 +27,26 @@ export default {
   computed: {
     pitcherFields() {
       // the order of the fields to show in the table
-      return ["Name", "IP", "H", "R", "ER", "BB", "SO", "HR"]
+      return ["Name", "IP", "H", "R", "ER", "BB", "K", "HR"]
     },
 
     pitcherStats() {
       // return [{"name":"Roy", "ip": 9, "h": 3, "r": 5, "er": 5, "bb": 2, "so": 10, "hr": 1}]
       // get the list of all pitchers who have pitched in this game
       let pitchers = this.game.allPitchers
-      return pitchers.map(p => ({
-        // calculate stats for this pitcher
-        "Name": p.name,
-        "IP": utils.ipFromNumOuts(_.sum(this.game.playsForPitcher(p).map(play => play.outs))),
-        "H": this.game.playsForPitcher(p).filter(play => play.hit).length,
-        "R": 0, // TODO
-        "ER": 0, // TODO
-        "BB": this.game.playsForPitcher(p).filter(play => play.walk).length,
-        "SO": this.game.playsForPitcher(p).filter(play => play.strikeout).length,
-        "HR": this.game.playsForPitcher(p).filter(play => play.bases === 4).length
-      }))
+      return pitchers.map(p => {
+        return {
+          // calculate stats for this pitcher
+          "Name": p.name,
+          "IP": utils.ipFromNumOuts(_.sum(this.game.playsForPitcher(p).map(play => play.outs))),
+          "H": this.game.playsForPitcher(p).filter(play => play.hit).length,
+          "R": _.sum(this.game.playsForPitcher(p).map(play => play.runsScored)),
+          "ER": _.sum(this.game.playsForPitcher(p).map(play => play.runsScored)), // TODO calculate ER
+          "BB": this.game.playsForPitcher(p).filter(play => play.walk).length,
+          "K": this.game.playsForPitcher(p).filter(play => play.strikeout).length,
+          "HR": this.game.playsForPitcher(p).filter(play => play.bases === 4).length
+        }}
+      )
 
 
     },

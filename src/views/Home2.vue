@@ -1,46 +1,51 @@
 <template>
   <b-container>
-    <div style="float:left; width: 500px">
-      <Scoreboard :game="game"></Scoreboard>
-    </div>
+    <b-row>
+      <b-col>
+        <Scoreboard :game="game"></Scoreboard>
+      </b-col>
 
-    <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
-    <b-button-group>
-      <b-button @click="pitch(PT.BALL)">Ball</b-button>
-      <b-button @click="pitch(PT.STRIKE_SWINGING)">Strike</b-button>
-      <b-button @click="pitch(PT.SINGLE)">1B</b-button>
-      <b-button @click="pitch(PT.DOUBLE)">2B</b-button>
-      <b-button @click="pitch(PT.TRIPLE)">3B</b-button>
-      <b-button @click="pitch(PT.HOMER)">HR</b-button>
-    </b-button-group>
-    <b-button-group>
-      <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
-      <b-button @click="pitch(PT.GROUNDOUT)">Groundout</b-button>
-      <b-button @click="pitch(PT.FLYOUT)">Flyout</b-button>
-      <b-button @click="pitch(PT.LINEOUT)">Lineout</b-button>
-      <b-button @click="pitch(PT.ERROR)">Error</b-button>
-      <b-button @click="game.nextHalfInning()">NEXT HI</b-button>
-    </b-button-group>
+      <b-col>
+        <!-- <button @click="hi.newBatter(battingTeam.nextBatter())">Next Batter</button> -->
+        <b-button-group>
+          <b-button @click="pitch(PT.BALL)">Ball</b-button>
+          <b-button @click="pitch(PT.STRIKE_SWINGING)">Strike</b-button>
+          <b-button @click="pitch(PT.SINGLE)">1B</b-button>
+          <b-button @click="pitch(PT.DOUBLE)">2B</b-button>
+          <b-button @click="pitch(PT.TRIPLE)">3B</b-button>
+          <b-button @click="pitch(PT.HOMER)">HR</b-button>
+        </b-button-group>
+        <b-button-group>
+          <!-- <button @click="pitch(PT.DOUBLE_PLAY)">GIDP</button> -->
+          <b-button @click="pitch(PT.GROUNDOUT)">Groundout</b-button>
+          <b-button @click="pitch(PT.FLYOUT)">Flyout</b-button>
+          <b-button @click="pitch(PT.LINEOUT)">Lineout</b-button>
+          <b-button @click="pitch(PT.ERROR)">Error</b-button>
+          <b-button @click="game.nextHalfInning()">NEXT HI</b-button>
+        </b-button-group>
 
-    <br><br>
-    <div v-if="hi.outs < 3 && !game.isOver">
-      <b-button-group>
-        <b-button variant="primary" @click="randomPitch()">Normal</b-button>
-        <b-button variant="danger" @click="swingForTheFences()">Swing</b-button>
-        <b-button variant="success" @click="takePitch()">Take</b-button>
-        <b-button variant="secondary" @click="pitch(PT.BUNT)">Bunt</b-button>
-      </b-button-group>
-    </div>
-    <div v-if="hi.outs >= 3 && !game.isOver">
-      <b-button variant="primary" @click="game.nextHalfInning()">Next</b-button>
-    </div>
-    <div v-if="game.isOver">
-      <h3>GAME OVER!</h3>
-    </div>
+        <br><br>
+        <div v-if="hi.outs < 3 && !game.isOver">
+          <b-button-group>
+            <b-button variant="primary" @click="randomPitch()">Normal</b-button>
+            <b-button variant="danger" @click="swingForTheFences()">Swing</b-button>
+            <b-button variant="success" @click="takePitch()">Take</b-button>
+            <b-button variant="secondary" @click="pitch(PT.BUNT)">Bunt</b-button>
+          </b-button-group>
+        </div>
+        <div v-if="hi.outs >= 3 && !game.isOver">
+          <b-button variant="primary" @click="game.nextHalfInning()">Next</b-button>
+        </div>
+        <div v-if="game.isOver">
+          <h3>GAME OVER!</h3>
+        </div>
 
+        <br>
 
-    <BoxScore :game="game"></BoxScore>
+        <BoxScore :game="game"></BoxScore>
+      </b-col>
 
+    </b-row>
 
   </b-container>
 </template>
