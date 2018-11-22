@@ -39,6 +39,9 @@
     </div>
 
 
+    <BoxScore :game="game"></BoxScore>
+
+
   </b-container>
 </template>
 
@@ -46,6 +49,7 @@
 // @ is an alias to /src
 import HalfInning from "@/models/HalfInning"
 import Scoreboard from "@/components/Scoreboard"
+import BoxScore from "@/components/BoxScore"
 import Team from "@/models/Team"
 import Player from "@/models/Player"
 import Pitch from "@/models/Pitch"
@@ -161,7 +165,8 @@ export default {
   },
 
   components: {
-    Scoreboard
+    Scoreboard,
+    BoxScore
   }
 };
 </script>

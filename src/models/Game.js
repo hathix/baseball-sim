@@ -176,6 +176,13 @@ export default class Game {
   }
 
   /**
+    Returns a list of pitchers who have thrown in this game
+  */
+  get allPitchers() {
+    return _.uniq(this.pitches.map(pitch => pitch.pitcher))
+  }
+
+  /**
     Returns a list of pitches that the given batter has faced.
   */
   pitchesForBatter(batter) {
@@ -188,6 +195,23 @@ export default class Game {
   */
   playsForBatter(batter) {
     return this.pitches.filter(pitch => pitch.batter === batter)
+      .map(pitch => pitch.play)
+      .filter(x => x) // a clever way to remove nulls/undefineds
+  }
+
+  /**
+    Returns a list of pitches that the given pitcher has thrown.
+  */
+  pitchesForPitcher(pitcher) {
+    return this.pitches.filter(pitch => pitch.pitcher === pitcher)
+  }
+
+  /**
+    Returns all plays (singles, strikeouts, etc) the given pitcher has been
+    involved in. Ignores strikes and balls and fouls.
+  */
+  playsForPitcher(pitcher) {
+    return this.pitches.filter(pitch => pitch.pitcher === pitcher)
       .map(pitch => pitch.play)
       .filter(x => x) // a clever way to remove nulls/undefineds
   }
