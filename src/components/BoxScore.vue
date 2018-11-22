@@ -1,8 +1,11 @@
 <template>
   <div>
     <h3>Pitchers</h3>
-    <b-table striped :fields="pitcherFields" :items="pitcherStats">
-    </b-table>
+    <b-table striped :fields="pitcherFields" :items="pitcherStats"></b-table>
+
+    <h3>Batters</h3>
+    <!-- TODO -->
+    <!-- <b-table striped :fields="batterFields" :items="batterFields"></b-table> -->
   </div>
 </template>
 
